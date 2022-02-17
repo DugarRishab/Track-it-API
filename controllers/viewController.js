@@ -35,14 +35,16 @@ exports.getTaskPage = catchAsync(async (req, res, next) => {
 			});
 	}
 
-	res
-		.status(200)
-		.set(
-			'content-Security-Policy',
-			`connect-src ${connectSrc}`
-		)
-		.render('login', {});
+	else {
+		res
+			.status(200)
+			.set(
+				'content-Security-Policy',
+				`connect-src ${connectSrc}`
+			)
+			.render('login', {});
 	
+	}
 	
 	
 });
