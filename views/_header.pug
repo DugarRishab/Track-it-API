@@ -1,0 +1,22 @@
+mixin header(options)
+	
+	header
+		if options.all
+			.logo.small
+				img(src='/img/logoFull.png' alt='')
+			.search-bar.full-width
+				input.input-area(type='text' placeholder='Search for Tasks, Users and much more')
+				.icon
+					span.material-icons search
+			.extra-options
+				.help
+					span.material-icons help
+				.settings
+					span.material-icons settings
+				.user
+					.profile-img(style='background-image: url(/img/user1.png);')
+					span.material-icons expand_more
+		if options.logo
+			.logo.small
+				img(src='/img/logoFull.png' alt='') 
+			

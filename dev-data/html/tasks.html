@@ -1,0 +1,897 @@
+<html>
+
+	<head>
+		<title>tasks-page</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+			rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet">
+		<script src="https://kit.fontawesome.com/a5809f8554.js" crossorigin="anonymous"></script>
+	</head>
+
+	<body class="task">
+
+		<header >
+			<div class="logo small">
+				<img src="./../img/logoFull.png" alt="" class="">
+			</div>
+			<div class="search-bar full-width">
+				<input type="text" class="input-area" placeholder="Search for Tasks, Users and much more"></input>
+				<div class="icon">
+					<span class="material-icons">search</span>
+				</div>				
+			</div>
+			<div class="extra-options">
+				<div class="help">
+					<span class="material-icons">help</span>
+				</div>
+				<div class="settings">
+					<span class="material-icons">settings</span>
+				</div>
+				<div class="user">
+					<div class="profile-img" 
+						style="background-image: url(./../img/user1.jpg);">
+					</div>
+					<span class="material-icons">expand_more</span>
+				</div>
+			</div>
+		</header>
+
+		<div class="body-contents tasks">
+			<div class="menu">
+				<div class="user-Current">
+					<div class="profile-img" 
+						style="background-image: url(./../img/user1.jpg);">
+					</div>
+					<div class="user-info">
+						<div class="role">Senior Dev at Go Inc</div>
+						<div class="name bold">Rishab Dugar</div>
+					</div>
+				</div>
+				<div class="heading bold">Menu</div>
+				<div class="items">
+					<div class="top-deck">
+						<div class="item">
+							<i class="fas fa-th-large"></i>
+							<a class="title">Dashboard</a>
+						</div>
+						<div class="item">
+							<i class="fas fa-th-large"></i>
+							<a class="title">Team</a>
+						</div>
+						<div class="item active">
+							<i class="fas fa-th-large"></i>
+							<a class="title">Tasks</a>
+						</div>
+						<div class="item">
+							<i class="fas fa-th-large"></i>
+							<a class="title">Projects</a>
+						</div>
+						<div class="item">
+							<i class="fas fa-th-large"></i>
+							<a class="title">Calender</a>
+						</div>
+						<div class="item">
+							<i class="fas fa-th-large"></i>
+							<a class="title">Mail</a>
+						</div>
+						<div class="item">
+							<i class="fas fa-th-large"></i>
+							<a class="title">Notifications</a>
+						</div>
+						<div class="item">
+							<i class="fas fa-th-large"></i>
+							<a class="title">Chat</a>
+						</div>
+					</div>
+					<div class="bottom-deck">
+						<div class="item error">
+							<i class="fas fa-th-large"></i>
+							<a class="title">Logout</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- <div class="main create-task">
+				<header>
+					<div class="title bold">My Tasks</div>
+					<div class="tabs">
+						<div class="item active">Assigned to Me</div>
+						<div class="item">Assigned by Me</div>
+					</div>
+					<div class="btn primary--active">New+</div>
+				</header>
+			</div> -->
+
+			<div class="main">
+				<header>
+					<div class="title bold">My Tasks</div>
+					<div class="tabs">
+						<div class="item active">Assigned to Me</div>
+						<div class="item">Assigned by Me</div>
+					</div>
+					<div class="btn primary--active">New+</div>
+				</header>
+				<div class="task-group">
+					<header>
+						<div class="title">
+							<div class="sub-name">PROJECT</div>
+							<div class="name">Go-Inc</div>
+						</div>
+					</header>
+					<div class="group-contents">
+						<div class="task-item late3">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="task-item late2">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="task-item late2">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="task-item">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="task-item">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="task-item">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>				
+				</div>
+				<div class="task-group">
+					<header>
+						<div class="title">
+							<div class="name">Other Tasks</div>
+						</div>
+					</header>
+					<div class="group-contents">
+						<div class="task-item">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="task-item">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="task-item">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="task-item">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="task-item">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="task-item">
+							<div class="contents">
+								<div class="text">
+									<a class="heading-task">
+										Design the Tasks Page
+									</a>
+									<a class="text-task">
+										Redesign the task item with more colors and better visuals and do many more stuff vgfewrhtr hbe bgfre b bte bvreb bgfe.
+									</a>
+									<a class="link">view more</a>
+								</div>
+								<div class="time">
+									<a class="item">31st March 2022</a>
+									<a class="item">by 13:00 hrs</a>
+									<div class="icons">
+										<i class="fas fa-times-circle no"></i>
+										<i class="fas fa-plus-circle add"></i>
+										<i class="fas fa-check-circle done"></i>
+									</div>
+								</div>
+							</div>
+							<div class="assign">
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user2.jpg);">
+										</div>
+										<div class="profile-img" 
+											style="background-image: url(./../img/user3.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned To</a>
+										<a class="names">You, Dhiraj, and 3 others</a>
+									</div>
+								</div>
+								<div class="item">
+									<div class="profile-img-stack">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+									</div>
+									<div class="name">
+										<a class="sub-text">Assigned By</a>
+										<a class="names">Jonas Scheddmann</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
+			<div class="overlay">
+				<div class="main">
+					<header>
+						<div class="left-block">
+							<div class="back-btn">
+								<span class="material-icons">arrow_back_ios</span>
+							</div>
+							<div class="title bold">
+									Create Task
+							</div>
+						</div>
+						
+
+					</header>
+
+					<form action="" class="form-task">
+						<div class="left-panel">
+							<div class="form-item title" id="task-title">
+								<input type="text" class="" placeholder="Title">
+							</div>
+							<div class="form-item x small">
+								<label for="start-time">Start Time</label>
+								<input type="datetime-local" name="start-time" id="start-time">
+							</div>
+							<div class="form-item x small">
+								<label for="end-time">End Time</label>
+								<input type="datetime-local" name="end-time" id="end-time">
+							</div>
+							<div class="form-item">
+								<label for="">Description</label>
+								<textarea type="text" class="text-area"></textarea>
+							</div>
+							<div class="form-item">
+								<label for="">Steps</label>
+								<textarea type="text" class="text-area"></textarea>
+							</div>
+							<div class="form-item multiple-x">
+								<div class="item">
+									<label for="">Project:</label>
+									<input type="text">
+								</div>
+								<input class="btn primary--active" type="submit">Save</input>
+							</div>
+
+						</div>
+						<div class="right-panel">
+							<a>Assign To</a>
+							<div class="search-bar full-width">
+								<input type="text" class="input-area " id="task-searchbar" placeholder="Search for Users and Teams"></input>
+								<div class="icon">
+									<span class="material-icons">search</span>
+								</div>				
+							</div>
+							<div class="items">
+								<div class="profile">
+									<div class="left-section">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="name">Rishab Dugar</div>
+									</div>
+									<div class="right-section">
+										<div class="uid">U-18hd74ng</div>
+									</div>
+									<div class="cross-btn">
+										<span class="material-icons">
+											close
+										</span>
+									</div>
+								</div>
+								<div class="profile">
+									<div class="left-section">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="name">Rishab Dugar</div>
+									</div>
+									<div class="right-section">
+										<div class="uid">U-18hd74ng</div>
+									</div>
+									<div class="cross-btn">
+										<span class="material-icons">
+											close
+										</span>
+									</div>
+								</div>
+								<div class="profile">
+									<div class="left-section">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="name">Rishab Dugar</div>
+									</div>
+									<div class="right-section">
+										<div class="uid">U-18hd74ng</div>
+									</div>
+									<div class="cross-btn">
+										<span class="material-icons">
+											close
+										</span>
+									</div>
+								</div>
+								<div class="profile">
+									<div class="left-section">
+										<div class="profile-img" 
+											style="background-image: url(./../img/user1.jpg);">
+										</div>
+										<div class="name">Rishab Dugar</div>
+									</div>
+									<div class="right-section">
+										<div class="uid">U-18hd74ng</div>
+									</div>
+									<div class="cross-btn">
+										<span class="material-icons">
+											close
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<footer></footer>
+
+		<script src="style.js"></script>
+		<link rel="stylesheet" href="style.css">
+	</body>
+
+</html>

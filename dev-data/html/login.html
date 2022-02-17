@@ -1,0 +1,282 @@
+<html>
+
+<head>
+	<title>login-page</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+		rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a5809f8554.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+	<div class="landing-page">
+		<div class="main-left">
+			<header class="landing-page">
+				<div class="logo small">
+					TRACK-it
+				</div>
+			</header>
+			<div class="logo large">
+				TRACK-it
+			</div>
+			<img src="./../img/Group 12.png" alt="">
+		</div>
+
+		<div class="main-right">
+			<div class="form-container active" id="login-form">
+				<div class="content">
+
+					<div class="heading-form">Login</div>
+	
+					<form action="" class="form-user" >
+	
+						<div class="form-item">
+							<label for="input-email">Email</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+	
+						<div class="form-item">
+							<label for="input-password">Password</label>
+							<input type="password" name="" id="input-password" class="">
+						</div>
+	
+						<div class="form-item multiple-x">
+							<div class="item">
+	
+								<div class="check" id="check">
+									<div class="checkmark">
+										<input type="checkbox" name="" id="remUser" class="checkbox">
+										<i class="fas fa-check"></i>
+									</div>
+								</div>
+	
+								<label for="remUser">Remember Me</label>
+	
+							</div>
+	
+							<div class="item">
+								<a  class="link" id="forgot-password-link">Forgot Your Password?</a>
+							</div>
+						</div>
+	
+						<div class="btn primary--inactive block form-item bold">
+							Login
+						</div>
+	
+						<div class="form-item multiple-y">
+							<div class="item">
+								<div class="text bold">
+									<a>Dont have an Account?</a>
+									<a  class="link" id="signup-link">&nbsp;Signup</a>
+								</div>
+							</div>
+	
+							<div class="item">
+								<div class="text bold">
+									<a>Company not Registered yet?</a>
+									<a class="link" id="register-company-link">&nbsp;Register now</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="form-container" id="signup-form">
+				<div class="content">
+					<div class="heading-form">Signup</div>
+					<form action="" class="form-user">
+						<div class="form-item">
+							<label for="input-email">Name</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<div class="form-item">
+							<label for="input-email">Email</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<div class="form-item">
+							<label for="input-email">Company UID</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<div class="form-item">
+							<label for="input-email">Role in company</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<div class="form-item multiple-x">
+							<div class="item">
+	
+								<div class="check" id="check">
+									<div class="checkmark">
+										<input type="checkbox" name="" id="remUser" class="checkbox">
+										<i class="fas fa-check"></i>
+									</div>
+								</div>
+	
+								<label for="remUser">Remember Me</label>
+	
+							</div>
+	
+							<div class="item">
+								<a  class="link">Forgot Your Password?</a>
+							</div>
+						</div>
+	
+						<button type="submit" class="btn primary--inactive block form-item bold">
+							Signup
+						</button>
+	
+						<div class="form-item multiple-y">
+							<div class="item">
+								<div class="text bold">
+									<a>Don't have an Account?</a>
+									<a  class="link" id="login-link">&nbsp;login</a>
+								</div>
+							</div>
+	
+							<div class="item">
+								<div class="text bold">
+									<a>Company not Registered yet?</a>
+									<a  class="link" id="register-company-link">&nbsp;Register now</a>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="form-container " id="company-form">
+				<div class="content">
+					<div class="heading-form">company</div>
+					<form action="" class="form-user">
+						<div class="form-item">
+							<label for="input-email">Name of Company</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<div class="form-item">
+							<label for="input-email">Country</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<div class="form-item">
+							<label for="input-email">administrator</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<button type="submit" class="btn primary--inactive block form-item bold">
+							Next
+						</button>
+
+
+					</form>
+				</div>
+			</div>
+			<div class="form-container " id="password-form">
+				<div class="content">
+					<div class="heading-form">password</div>
+					<form action="" class="form-user">
+
+						<div class="form-item">
+							<label for="input-email">Password</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<div class="form-item">
+							<label for="input-email">Confirm Password</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<button type="submit" class="btn primary--inactive block form-item bold">
+							Submit
+						</button>
+
+					</form>
+				</div>
+			</div>
+			<div class="form-container " id="admin-form">
+				<div class="content">
+					<div class="heading-form">administrator</div>
+					<form action="" class="form-user">
+
+						<div class="form-item">
+							<label for="input-email">Name of Administrator</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<div class="form-item">
+							<label for="input-email">Email of Administrator</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<div class="form-item">
+							<label for="input-email">Role of Administrator in Company</label>
+							<input type="email" name="" id="input-email" class="">
+							<error class="error">
+							</error>
+						</div>
+
+						<button type="submit" class="btn primary--inactive block form-item bold">
+							Next
+						</button>
+					</form>
+				</div>
+			</div>
+			
+
+			<!-- <footer>
+				<div class="logo medium">
+					TRACK-it
+				</div>
+				<div class="links">
+					<div class="lic">&copy; Rishab Dugar. All rights reserved</div>
+					<div class="link">
+						<a class="item">About Us</a>
+						<a class="item">Contact Us</a>
+						<a class="item">Help</a>
+					</div>
+				</div>
+			</footer> -->
+
+		</div>
+
+		
+
+	</div>
+
+	
+
+
+	<script src="style.js"></script>
+	<link rel="stylesheet" href="style.css">
+</body>
+
+</html>

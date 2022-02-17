@@ -1,0 +1,38 @@
+mixin menu(user)
+	.menu
+		.user-Current
+			.profile-img(style=`background-image: url(/img/${user.image});`)
+			.user-info
+				.role= user.role
+				.name.bold= user.name
+		.heading.bold Menu
+		.items
+			.top-deck
+				.item
+					span.material-icons dashboard
+					a.title Dashboard
+				.item
+					span.material-icons groups
+					a.title Team
+				.item.active
+					span.material-icons task
+					a.title Tasks
+				.item
+					span.material-icons dashboard
+					a.title Projects
+				.item
+					span.material-icons calendar_today
+					a.title Calender
+				.item
+					span.material-icons mail
+					a.title Mail
+				.item
+					span.material-icons notifications
+					a.title Notifications
+				.item
+					span.material-icons chat
+					a.title Chat
+			.bottom-deck
+				.item.error
+					span.material-icons logout
+					a.title Logout

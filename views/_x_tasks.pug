@@ -1,0 +1,151 @@
+extends base
+
+block append head
+	//-script(src="moment.js")
+	//-script 
+		- moment().format()
+	
+
+block content
+	.body-contents.tasks
+		.menu
+			.user-Current
+				.profile-img(style='background-image: url(/img/user1.jpg)')
+				.user-info
+					.role Senior Dev at Go Inc
+					.name.bold Rishab Dugar
+			.heading.bold Menu
+			.items
+				.top-deck
+					.item
+						i.fas.fa-th-large
+						a.title Dashboard
+					.item
+						i.fas.fa-th-large
+						a.title Team
+					.item.active
+						i.fas.fa-th-large
+						a.title Tasks
+					.item
+						i.fas.fa-th-large
+						a.title Projects
+					.item
+						i.fas.fa-th-large
+						a.title Calender
+					.item
+						i.fas.fa-th-large
+						a.title Mail
+					.item
+						i.fas.fa-th-large
+						a.title Notifications
+					.item
+						i.fas.fa-th-large
+						a.title Chat
+				.bottom-deck
+					.item.error
+						i.fas.fa-th-large
+						a.title Logout
+		.main
+			header
+				.title.bold My Tasks
+				.tabs
+					.item#assignedToMe.active Assigned to Me
+					.item#assignedByMe Assigned by Me
+				.btn.primary--active New+
+			//-var currentTaskList
+			//-var document = Document
+			//- if(document.querySelector('#assignedToMe').classList.contains("active"))
+				-currentTaskList = assignedToUserTasks
+			each project in projects
+							
+				//- TODO: Check if the project has any tasks, if none, dont use it
+				.task-group
+					header
+						.title
+							.sub-name PROJECT
+							.name= `${project.name}`
+					.group-contents
+						each task in currentTaskList	
+							//- console.log("task", task)
+							if task.projectId === project.projectId 
+
+								//- TODO: Categorize tasks according to projects using conditionals
+								.task-item
+									.contents
+										.text
+											a.heading-task= `${task.title}`
+												
+											a.text-task= `${task.description}`	
+																			// TODO: Add description to tasks in mongoDB manually
+												
+											a.link view more
+										.time
+											a.item= `${moment(task.endDate).toObject().date} ${dateToString.monthShort(moment(task.endDate).toObject().months)} ${moment(task.endDate).toObject().years}`
+											a.item= `by ${moment(task.endDate).toObject().hours}:${moment(task.endDate).toObject().minutes} hrs`
+											.icons
+												i.fas.fa-times-circle.no
+												i.fas.fa-plus-circle.add
+												i.fas.fa-check-circle.done
+									.assign
+										.item
+											.profile-img-stack
+												.profile-img(style=`background-image: url(/img/user1.jpg)`)
+												.profile-img(style='background-image: url(/img/user2.jpg)')
+												.profile-img(style='background-image: url(/img/user3.jpg)')
+											.name
+												a.sub-text Assigned To
+												a.names You, Dhiraj, and 3 others
+										.item
+											if task.assignedBy
+												.profile-img-stack
+													.profile-img(style=`background-image: url(/img/${task.assignedByUser.image})`)
+												.name
+													a.sub-text Assigned By
+													- var name = task.assignedByUser.name
+													a.names= `${task.assignedByUser.name}`
+													//- console.log(name)
+
+													
+
+			.task-group
+				header
+					.title
+						.name Other Tasks
+				.group-contents
+					each task in currentTaskList	
+							if !task.projectId
+								.task-item
+									.contents
+									
+										.text
+											a.heading-task= `${task.title}`
+												
+											a.text-task= `${task.description}`	
+																			// TODO: Add description to tasks in mongoDB manually
+												
+											a.link view more
+										.time
+											a.item= `${moment(task.endDate).toObject().date} ${dateToString.monthShort(moment(task.endDate).toObject().months)} ${moment(task.endDate).toObject().years}`
+											a.item= `by ${moment(task.endDate).toObject().hours}:${moment(task.endDate).toObject().minutes} hrs`
+											.icons
+												i.fas.fa-times-circle.no
+												i.fas.fa-plus-circle.add
+												i.fas.fa-check-circle.done
+									.assign
+										.item
+											.profile-img-stack
+												.profile-img(style='background-image: url(/img/user1.jpg)')
+												.profile-img(style='background-image: url(/img/user2.jpg)')
+												.profile-img(style='background-image: url(/img/user3.jpg)')
+											.name
+												a.sub-text Assigned To
+												a.names You, Dhiraj, and 3 others
+										.item
+											if task.assignedBy
+												.profile-img-stack= task.assignedBy
+													.profile-img(style=`background-image: url(/img/${task.assignedBy.image})`)
+												.name
+													a.sub-text Assigned By
+													a.names= task.assignedBy.name
+
+	script(src = "/script/style.js")
