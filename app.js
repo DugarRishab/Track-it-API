@@ -4,7 +4,8 @@ const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const path = require('path');
-const cors = require('cors')
+const cors = require('cors');
+const compression = require('compression');
 
 const userRouter = require('./routes/userRoutes');
 const companyRouter = require('./routes/companyRoutes');
@@ -55,6 +56,8 @@ app.use(cookieParser()); // <- parses cookie data
 
 app.use(mongoSanitize()); // <- Data Sanitization aganist NoSQL query Injection.
 app.use(xss());   		  // <- Data Sanitization against xss
+
+app.use(compression());
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/companies', companyRouter);
