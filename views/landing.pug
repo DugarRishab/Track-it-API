@@ -4,7 +4,7 @@ include _header
 html
 	head 
 		block head
-			title tasks-page
+			title Track-it
 			meta(charset='UTF-8')
 			meta(name='viewport' content='width=device-width, initial-scale=1.0')
 			link(rel='preconnect' href='https://fonts.googleapis.com')
@@ -12,6 +12,7 @@ html
 			link(href='https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap' rel='stylesheet')
 			//- script(src='https://kit.fontawesome.com/a5809f8554.js' )	
 			link(rel='stylesheet' href='/css/style.css')
+			link(rel='icon' type='image/x-icon' href='/img/favicon.png')
 	body 
 
 		// Content ->>
@@ -67,11 +68,11 @@ html
 								input#input-email(type='email' name='' required=true)
 								error.error
 							.form-item
-								label(for='input-company-uid') Company UID
+								label(for='input-company-uid') Your Organisation's UID
 								input#input-company-uid(type='text' name='' minlength=8 maxlength=8 required=true)
 								error.error
 							.form-item
-								label(for='input-role') Role in company
+								label(for='input-role') Your role in this organisation
 								input#input-role(type='text' name='' required=true)
 								error.error
 							.form-item.multiple-x
@@ -89,14 +90,14 @@ html
 								.item
 									.text.bold
 										a Don't have an Account?
-										a#login-link.link  login
+										a#login-link.link  | login
 								.item
 									.text.bold
 										a Company not Registered yet?
-										a#register-company-link.link Register now
+										a#register-company-link.link | Register now
 				#company-form.form-container
 					.content
-						.heading-form company
+						.heading-form Register your Company
 						form.form-user(action='')
 							.form-item
 								label(for='input-country-name') Name of Company
@@ -110,7 +111,7 @@ html
 								| Next
 				#password-form.form-container
 					.content
-						.heading-form password
+						.heading-form Welcome! Create your password
 						form.form-user(action='')
 							.form-item
 								label(f/or='input-password') Password
@@ -124,7 +125,7 @@ html
 								| Submit
 				#admin-form.form-container
 					.content
-						.heading-form administrator
+						.heading-form Create your Administrator
 						form.form-user(action='')
 							.form-item
 								label(for='input-admin-name') Name of Administrator

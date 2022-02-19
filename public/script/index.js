@@ -9,6 +9,12 @@ import { addAssignToItem, checkUpdateTaskGroup, createTaskGroup, removeAllTaskGr
 //import { profile } from 'console';
 
 const currentPath = window.location.pathname;
+const logo = document.querySelector('.logo');
+if (logo) {
+	logo.addEventListener('click', () => {
+		window.location.reload();
+	})
+}
 //console.log(`/${/^tasks/}`);
 //console.log("path: ", currentPath);
 if (currentPath === '/tasks') {

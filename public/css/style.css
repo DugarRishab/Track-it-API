@@ -202,6 +202,7 @@ body{
 	color: var(--white);
 	width: fit-content;
 	height: fit-content;
+	cursor: pointer;
 }
 .logo.large{
 	font-size: 70px;
