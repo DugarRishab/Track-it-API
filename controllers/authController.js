@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 // import chalk from 'chalk';
 
 const User = require('./../models/userModel');
+const Company = require('./../models/companyModel');
 //const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
@@ -43,6 +44,12 @@ const createSendToken = (user, statusCode, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
 	
 	const userId = `U-${uid(8)}`;
+
+	const companies = await Company.findOne({ companyId: req.body.companyId });
+	
+	if (!companies) {
+		return next(new AppError('The company you entered does not exists', 404));
+	}
 	
 	const newUser = await User.create({
 		name: req.body.name,
@@ -57,7 +64,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 		image: 'default.jpg'
 	});
 
-	console.log('new user signing up');
+	console.log('New USER signing up');
 
 	createSendToken(newUser, 201, res);
 });

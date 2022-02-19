@@ -59,7 +59,13 @@ const userSchema = new mongoose.Schema({
 	},
 	companyId: {
 		type: String,
-		required: [true, 'Please provide a company id']
+		required: [true, 'Please provide a company id'],
+		validate: {
+			validator: function (val) {
+				return val.startsWith('C-');
+			},
+			message: 'Invalid UID: Organisation UID must start with C-'
+		}
 	},
 	image: {
 		type: String,
