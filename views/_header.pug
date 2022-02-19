@@ -14,7 +14,7 @@ mixin header(options)
 				.settings
 					span.material-icons settings
 				.user
-					.profile-img(style='background-image: url(/img/user1.png);')
+					.profile-img(style=`background-image: url(/img/${user.image});`)
 					span.material-icons expand_more
 		if options.logo
 			.logo.small
