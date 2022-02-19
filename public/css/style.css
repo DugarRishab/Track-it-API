@@ -17,6 +17,7 @@
 	--greenDark: rgb(0, 161, 8);
 	--yellow: rgba(246, 201, 21, 1);
 	--blue: rgb(110, 194, 255);
+	--blueDark: rgb(53, 171, 255);
 
 	--red:  rgba(255, 34, 34, 0.8);
 	--bg-green: rgba(27, 203, 56, 0.05);
@@ -123,22 +124,26 @@ body{
 	font-size: 20px;
 	padding: 0 20px 0 20px;
 }
-.form-user .form-item input.correct{
+.form-user .form-item input:valid{
 	background: var(--bg-green);
+	border: 0.5px solid var(--green);
 }
-.form-user .form-item input.error{
+.form-user .form-item input:invalid{
 	background: var(--bg-red);
+	border: 0.5px solid var(--red);
 }
 .form-user .form-item input:focus{
 	stroke: none;
 	border: 2px solid var(--whiteFaded);
 	outline: none;
 }
-.form-user .form-item input.correct:focus{
+.form-user .form-item input:valid:focus{
 	border: 2px solid var(--green);
+	background: var(--bg-green);
 }
-.form-user .form-item input.error:focus{
+.form-user .form-item input:invalid:focus{
 	border: 2px solid var(--red);
+	background: var(--bg-red);
 }
 .form-user .form-item.multiple-x{
 	display: flex;
@@ -170,8 +175,13 @@ body{
 	font-size: 17px;
 }
 .form-user a.link{
-	color: var(--accentColor2);
+	color: var(--blue);
+	cursor: pointer;
 }
+/* .form-user a.link:hover{
+	color: var(--blueDark);
+	text-decoration: underline;
+} */
 .bold{
 	font-weight: 600;
 }
@@ -240,7 +250,7 @@ header{
 .main-right{
 	width: 50%;
 	height: 100%;
-	border: 1px solid rgb(0, 4, 255);
+	border: 0px solid rgb(0, 4, 255);
 	background-color: rgb(255, 255, 255, 0.03);
 	display: flex;
 	overflow-x: hidden;
@@ -252,7 +262,7 @@ header{
 .main-right .form-container{
 	height: 100%;
 	width: 50vw;
-	border: 2px solid #f06d06;
+	border: 0px solid #f06d06;
 	display: flex;
 	overflow-y: scroll;
 	flex-direction: column;
@@ -342,10 +352,14 @@ footer .links .link{
 	font-size: 17px;
 }
 .link{
-	color: var(--accentColor2);
-	text-decoration: underline;
+	color: var(--blue);
+	-text-decoration: underline;
 	font-size: 15;
 	margin-top: 10px;
+}
+.link:hover{
+	color: var(--blueDark);
+	text-decoration: underline;
 }
 .task-item .contents{
 	display: flex;

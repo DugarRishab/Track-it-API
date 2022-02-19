@@ -253,9 +253,26 @@ if (currentPath === '/') {
 	
 		if (formName === 'signup-form') {
 
-			currentForm = formName;
+			const nameField = form.querySelector('#input-name');
+			const emailField = form.querySelector('#input-email');
+			const companyField = form.querySelector('#input-company-uid');
+			const roleField = form.querySelector('#input-role');
+
+			// const fieldsArray = [
+			// 	nameField,
+			// 	emailField,
+			// 	companyField,
+			// 	roleField
+			// ];
+
+			// fieldsArray.forEach(field => {
+			// 	field.addEventListener('change', inputValidator(fieldsArray));
+			// });
 
 			
+
+
+			currentForm = formName;
 
 			form.addEventListener('submit', e => {
 				e.preventDefault();
@@ -294,6 +311,9 @@ if (currentPath === '/') {
 
 			currentForm = formName;
 
+			const nameField = form.querySelector('#input-name');
+			const countryField = form.querySelector('#input-country');
+
 			form.addEventListener('submit', e => {
 				e.preventDefault();
 
@@ -310,6 +330,9 @@ if (currentPath === '/') {
 		if (formName === 'login-form') {
 
 			currentForm = formName;
+
+			const passwordField = form.querySelector('#input-password');
+			const emailField = form.querySelector('#input-email');
 	
 			const signupLink = activeForm.querySelector('#signup-link');
 			const companyLink = activeForm.querySelector('#register-company-link');
@@ -342,6 +365,11 @@ if (currentPath === '/') {
 		}
 	
 		if (formName === 'admin-form') {
+
+			const nameField = form.querySelector('#input-admin-name');
+			const emailField = form.querySelector('#input-admin-email');
+			const roleField = form.querySelector('#input-admin-role');
+
 			form.addEventListener('submit', e => {
 				e.preventDefault();
 
@@ -357,6 +385,10 @@ if (currentPath === '/') {
 		}
 
 		if (formName === 'password-form') {
+
+			const passwordField = form.querySelector('#input-password');
+			const passwordConfirmField = form.querySelector('#input-password-confirm');
+
 			form.addEventListener('submit', e => {
 				e.preventDefault();
 
@@ -395,6 +427,31 @@ if (currentPath === '/') {
 				
 			});
 		}
+
+		// function inputValidator(fields) {
+
+		// 	console.log("change registered");
+
+		// 	let validate = true;
+		// 	fields.forEach(field => {
+		// 		if (!field.getAttribute('isvalid')) {
+		// 			validate = false;
+		// 		}
+		// 	});
+		// 	const submitBtn = form.querySelector('button[type = "submit"]');
+		// 	if (validate) {
+		// 		if (submitBtn) {
+		// 			submitBtn.classList.add('primary--active');
+		// 		}
+		// 	}
+		// 	else {
+		// 		if (submitBtn) {
+		// 			submitBtn.classList.add('primary--inactive');
+		// 		}
+		// 	}
+		// }
+
+
 	
 	}
 

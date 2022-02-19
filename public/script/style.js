@@ -4,12 +4,14 @@
 const check = document.querySelectorAll('.check');
 
 
-if (check) {
+if (check.length > 0) {
 	console.log('check found', check);
 	check.forEach(el => {
+		console.log('')
 		const checkMark = el.querySelector(`.checkMark`);
 
 		el.addEventListener('click', () => {
+			console.log('check clicked');
 			checkMark.classList.toggle('checked');
 		});
 		if (el.checked) {
