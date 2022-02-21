@@ -78,3 +78,23 @@ export const registerCompany = async (data) => {
 
 	
 }
+
+export const sendVerifyRequest = async (code) => {
+	try {
+		const res = await axios({
+			method: 'GET',						// <- Axios also triggers the errors
+			url: `/api/v1/users/verifyEmail/${code}`,
+			//data: sendData
+		});
+		if (res.data.message === 'success') {
+			showAlert('success', 'You have been Verified');
+			window.setTimeout(() => {
+				location.assign('/tasks');
+			}, 2500);
+		}
+	}
+	catch (err) {
+		showAlert('error', err.response.data.message);
+	}
+	
+}

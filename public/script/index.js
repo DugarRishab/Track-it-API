@@ -2,8 +2,9 @@
 import '@babel/polyfill';
 import util from 'util';
 import fs from 'fs';
+import axios from 'axios';
 
-import { login, registerCompany, signup } from "./login";
+import { login, registerCompany, signup, sendVerifyRequest } from "./login";
 import { getAssignToSearchData, getTaskData, getUserData, getTeamData, sendTaskFormData } from "./getData";
 import { addAssignToItem, checkUpdateTaskGroup, createTaskGroup, removeAllTaskGroups, removeSearchDropDown } from './createDOM';
 //import { profile } from 'console';
@@ -465,5 +466,13 @@ if (currentPath === '/') {
 
 	formChanger();
 
+}
+
+if (currentPath.startsWith('/verifyEmail/')) {
+	const code = currentPath.split('/')[2];
+	//console.log(code);
+	sendVerifyRequest(code);
+
+	
 }
 

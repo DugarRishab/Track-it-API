@@ -32,7 +32,8 @@ exports.createCompany = catchAsync(async (req, res, next) => {
 		adminStatus: 'administrator',
 		companyId,
 		userId,
-		role: req.body.administratorRole
+		role: req.body.administratorRole,
+		emailVerified: false
 	});
 
 	const company = await Company.create({

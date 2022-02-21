@@ -1,7 +1,9 @@
+/* eslint-disable new-cap */
 /* eslint-disable no-lone-blocks */
 /* eslint-disable arrow-body-style */
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
 // import chalk from 'chalk';
 
 const User = require('./../models/userModel');
@@ -9,7 +11,7 @@ const Company = require('./../models/companyModel');
 //const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
-//const Email = require('./../utils/email');
+const Email = require('./../utils/sendMail');
 const log = require('./../utils/colorCli');
 const uid = require('./../utils/generateUID');
 
@@ -41,6 +43,90 @@ const createSendToken = (user, statusCode, res) => {
 	});
 }
 
+exports.createSendOtp = catchAsync(async (req, res, next) => {
+	
+	const otp = uid(20);
+	//return result;
+	const otpExpiresIn = moment.duration(process.env.OTP_EXPIRES_IN);
+	const otpExpiresBy = moment(Date.now());
+	otpExpiresBy.add(otpExpiresIn);
+	console.log('otp duration: ', otpExpiresIn);
+	console.log(otpExpiresBy, "current date", moment(Date.now()));
+
+	const newUser = req.user;
+
+	newUser.otp = otp;
+	newUser.otpExpiresBy = otpExpiresBy;
+
+	console.log("newUser: ", newUser);
+
+	const user = await User.findByIdAndUpdate(newUser.id, newUser, {
+		new: true,
+		runValidators: true
+	});
+
+	console.log("user after updation: ", user);
+
+	const url = `${req.protocol}://${req.get('host')}/verifyEmail/${user.id}-${otp}`;
+	//console.log(url);
+
+	//const user = await User.find({ email: newUser.email });
+
+	// if (!user) {
+	// 	console.log('user not found after otp')
+	// }
+
+	//console.log('user.found: ', newUser.otp);
+	//console.log('email function starting...');
+	await new Email(user, url, {}).sendOtpEmail();
+	//console.log('email function completed');
+
+	next(new AppError('EMAIL NOT VERIFIED: An URL has been sent to your email. Click on the URL to verify your email', 401));
+});
+
+exports.verifyOtp = catchAsync(async (req, res, next) => {
+	//console.log('req:', req.body);
+	//const newUser = req.body.user;
+	const [id, otp] = req.params.code.split('-');
+
+	const user = await User.findById(id);
+
+	if (!user || !otp) {
+		return next(new AppError('URL not valid', 400));
+	}
+	if (user.otp !== otp) {
+		
+		return next(new AppError('URL not Valid', 400));
+	}
+	//const totalDiff = moment.duration(endDate.diff(startDate)).as('hours');
+	const otpExpirationTime = new moment(user.otpExpiresBy);
+	const currentTime = new moment(Date.now());
+	const timeDiff = moment.duration(otpExpirationTime.diff(currentTime)).as('ms');
+
+	console.log('otpExpirationTime: ', otpExpirationTime);
+	console.log('currentTime: ', currentTime);
+	console.log('timeDiff: ', timeDiff);
+	
+	if (timeDiff < 0) {
+		return next(new AppError('OTP expired', 400));
+	}
+	user.emailVerified = true;
+	user.otp = undefined;
+	user.otpExpiresBy = undefined;
+
+	//await new Email(user).sendWelcome();
+
+	await User.findByIdAndUpdate(id, user, {
+		new: true
+	});
+
+	// res.status(201).json({
+	// 	status: 'success',
+	// 	message: 'You have been verified :) \n Go back and Login'
+	// });
+	createSendToken(user, 201, res);
+});
+
 exports.signup = catchAsync(async (req, res, next) => {
 	
 	const userId = `U-${uid(8)}`;
@@ -61,12 +147,22 @@ exports.signup = catchAsync(async (req, res, next) => {
 		companyId: req.body.companyId,
 		userId,
 		country: req.body.country || 'india',
-		image: 'default.jpg'
+		image: 'default.jpg',
+		otp: ' ',
+		otpExpiresBy: Date.now(),
+		emailVerified: false
 	});
 
-	console.log('New USER signing up');
+	
 
-	createSendToken(newUser, 201, res);
+	//createSendOtp(newUser, req, res, next);
+	//createSendToken(newUser, 201, res);
+
+	req.user = newUser;
+	next();
+
+	console.log('New USER signing up');
+	
 });
 exports.login = catchAsync(async (req, res, next) => {
 	const { email, password } = req.body;
@@ -75,14 +171,24 @@ exports.login = catchAsync(async (req, res, next) => {
 		return next(new AppError('Please provide email and password', 401));
 	}
 
-	const user = await User.findOne({ email }).select('+password');
+	const user = await User.findOne({ email }).select('+password +active');
 
-	if (!user || (!await user.correctPassword(password, user.password))) {
+	if (!user || (!await user.correctPassword(password, user.password)) || !user.active) {
 		return next(new AppError('Incorrect email or password', 401));
 	}
-	console.log(req.headers);
+	//console.log(req.headers);
 
-	createSendToken(user, 200, res);
+	if (!user.emailVerified) {
+		//await createSendOtp(user, req, res);
+		//return next(new AppError('Verify your Email First. A verification link has been sent to your mail', 400));
+		req.user = user;
+		next();
+	}
+	else {
+		createSendToken(user, 200, res);
+	}
+
+	
 });
 exports.protect = catchAsync(async (req, res, next) => {
 	let token;

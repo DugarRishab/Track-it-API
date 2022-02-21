@@ -220,7 +220,7 @@ header{
 	min-width: 100%;
 	height: 65px;
 	border: 0px solid red;
-	
+	color: var(--white);
 }
 .landing-page{
 	width: 100%;
@@ -1049,3 +1049,17 @@ header{
 .alert.error{
 	background-color: var(--red);
 }
+
+.container{
+	margin: auto;
+	border: 2px solid var(--whiteFaded);
+	width: 500px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	
+}
+header.container{
+	width: fit-content;
+}
+

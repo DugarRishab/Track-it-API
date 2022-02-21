@@ -48,3 +48,12 @@ exports.getTaskPage = catchAsync(async (req, res, next) => {
 	
 	
 });
+exports.getVerifyPage = catchAsync(async (req, res, next) => {
+	res
+		.status(200)
+		.set(
+			'content-Security-Policy',
+			`connect-src ${connectSrc}`
+		)
+		.render('verify');
+});
