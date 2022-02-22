@@ -242,6 +242,7 @@ if (currentPath === '/') {
 
 	const isLoggedIn = document.querySelector('script').getAttribute('data-isLoggedIn');
 	console.log('isLoggedIn: ', isLoggedIn);
+	
 	if (isLoggedIn) {
 		showAlert('success', 'You are already logged in');
 		window.setTimeout(() => {
