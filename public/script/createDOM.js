@@ -123,14 +123,15 @@ export const createTaskItem = (task) => {
 	assign1NameText.classList.add("names");
 
 	assign1NameSubText.innerHTML = "Assigned To";
-	if (task.assignedTo.length >= 3) {
-		assign1NameText.innerHTML = `${task.assignedTo[0].name.split(' ')[1]}, ${task.assignedTo[1].name.split(' ')[0]}, ${task.assignedTo[2].name.split(' ')[0]}`;
+	
+	if (task.assignedTo.length >= 1) {
+		assign1NameText.innerHTML = `${task.assignedTo[0].name}`;
 	}
 	if (task.assignedTo.length >= 2) {
 		assign1NameText.innerHTML = `${task.assignedTo[0].name.split(' ')[0]}, ${task.assignedTo[1].name.split(' ')[0]}`;
 	}
-	if (task.assignedTo.length >= 1) {
-		assign1NameText.innerHTML = `${task.assignedTo[0].name.split(' ')[0]}`;
+	if (task.assignedTo.length >= 3) {
+		assign1NameText.innerHTML = `${task.assignedTo[0].name.split(' ')[1]}, ${task.assignedTo[1].name.split(' ')[0]}, ${task.assignedTo[2].name.split(' ')[0]}`;
 	}
 	
 
@@ -357,6 +358,7 @@ export const checkUpdateTaskGroup = (data, option) => {
 
 	const updatedTaskGroups = mainBody.querySelectorAll(".task-group");
 
+	// All PROJECT RELATED TASKS GROUPS ARE CREATED AND UPDATED ->
 	updatedTaskGroups.forEach(group => {
 
 		const currentGroupTasks = group.querySelectorAll('.group-contents .task-item');
@@ -419,6 +421,7 @@ export const checkUpdateTaskGroup = (data, option) => {
 	const noGroupTasks = currentTasks.filter(task => (!task.hasOwnProperty('projectId')));
 	//console.log("noGropupTasks: ", noGroupTasks);
 
+	// ALL OTHER_TASKS GROUP IS CREATED AND UPDATED ->
 	if (noGroupTasks.length !== 0) {
 		let noProjectGroup = mainBody.querySelector(".task-group#no-project");
 
@@ -453,9 +456,11 @@ export const checkUpdateTaskGroup = (data, option) => {
 		const currentGroupTasks = noProjectGroup.querySelectorAll('.task-item');
 
 		const newTasks = noGroupTasks.filter(groupTask => {
+
 			const checkTask = Array.from(currentGroupTasks).filter(currentTask => {
 				return currentTask.getAttribute(`data-taskId`) === groupTask.taskId;
 			});
+
 			if (checkTask.length !== 0)
 				return false;
 			return true;
@@ -475,26 +480,20 @@ export const checkUpdateTaskGroup = (data, option) => {
 		//console.log("extra Tasks", extraTasks);
 		//console.log("new Tasks", newTasks);
 
-		extraTasks.forEach(task => {
-			//console.log("removing task item");
+		extraTasks.forEach(task => {		// <- This works fine
+			console.log("removing task item");
 			task.parentElement.removeChild(task);
 		});
 
-		newTasks.forEach(task => {
-			//	console.log("adding taskItem");
+		newTasks.forEach(task => {		// the prblm is in newTasks algo
+			//console.log("adding taskItem");
 			noProjectGroup.querySelector(".group-contents").append(createTaskItem(task));
-				
+			profileImageStackLayout();
 		});
 
 		profileImageStackLayout();
 		
-
-
-
 	}
-
-	
-
 
 }
 
@@ -603,7 +602,9 @@ export const addAssignToItem = (item) => {
 	if (duplicateProfile.length === 0) {
 		item.appendChild(crossBtn);
 		assignedToList.appendChild(item);
-	}
 
+		
+	}
+	
 	
 }
