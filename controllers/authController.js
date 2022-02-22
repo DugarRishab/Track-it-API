@@ -264,5 +264,6 @@ exports.isLoggedIn = async (req, res, next) => {	// <- We do not want to cause a
 			return next();
 		}
 	}
+	next();
 	
 };

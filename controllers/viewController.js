@@ -11,13 +11,24 @@ const dateToString = require('./../utils/dateToString');
 const connectSrc = process.env.CSP_CONNECT_SRC;
 
 exports.getLandingPage = catchAsync(async (req, res) => {	// TODO: Check if User already logged in, if yes send him to dashboard directly
+	
+	let isLoggedIn;
+	if (res.locals.user) {
+		isLoggedIn = true;
+	}
+	else {
+		isLoggedIn = false;
+	}
+
 	res
 		.status(200)
 		.set(													
 			'content-Security-Policy',		
 			`connect-src ${connectSrc}`
 		)
-		.render('landing');	
+		.render('landing', {
+			isLoggedIn
+		});	
 });
 exports.getTaskPage = catchAsync(async (req, res, next) => {
 

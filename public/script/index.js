@@ -7,6 +7,7 @@ import axios from 'axios';
 import { login, registerCompany, signup, sendVerifyRequest } from "./login";
 import { getAssignToSearchData, getTaskData, getUserData, getTeamData, sendTaskFormData } from "./getData";
 import { addAssignToItem, checkUpdateTaskGroup, createTaskGroup, removeAllTaskGroups, removeSearchDropDown } from './createDOM';
+import { showAlert } from './alert';
 //import { profile } from 'console';
 
 const currentPath = window.location.pathname;
@@ -238,6 +239,15 @@ if (currentPath === '/tasks') {
 // }
 
 if (currentPath === '/') {
+
+	const isLoggedIn = document.querySelector('script').getAttribute('data-isLoggedIn');
+	console.log('isLoggedIn: ', isLoggedIn);
+	if (isLoggedIn) {
+		showAlert('success', 'You are already logged in');
+		window.setTimeout(() => {
+			location.assign('/tasks');
+		}, 1500);
+	}
 
 	let currentForm;
 	let name, email, companyUID, role, password, passwordConfirm, country,
