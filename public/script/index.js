@@ -4,7 +4,7 @@ import util from 'util';
 import fs from 'fs';
 import axios from 'axios';
 
-import { login, registerCompany, signup, sendVerifyRequest } from "./login";
+import { login, registerCompany, signup, sendVerifyRequest, logout } from "./login";
 import { getAssignToSearchData, getTaskData, getUserData, getTeamData, sendTaskFormData } from "./getData";
 import { addAssignToItem, checkUpdateTaskGroup, createTaskGroup, removeAllTaskGroups, removeSearchDropDown } from './createDOM';
 import { showAlert } from './alert';
@@ -61,12 +61,12 @@ if (currentPath === '/tasks') {
 
 	});
 
-	window.setInterval(reload, 5 * 1000);
+	const reloadIntervalId = window.setInterval(reload, 5 * 1000);
 
 	function reload() {
 		//console.log("reloading...");
 		const option = checkActiveTab();
-	//	console.log("option:", option);
+		//console.log("option:", option);
 		getData(option);
 		//checkUpdateTaskGroup(data, option);
 	}
@@ -216,6 +216,14 @@ if (currentPath === '/tasks') {
 		
 		
 	}
+
+
+	const logoutBtn = document.querySelector("#logout-btn");
+	logoutBtn.addEventListener('click', () => {
+		console.log('click detected');
+		clearInterval(reloadIntervalId);
+		logout();
+	})
 
 }
 

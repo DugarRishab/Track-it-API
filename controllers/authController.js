@@ -221,6 +221,20 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 	next();
 });
+exports.logout = (req, res, next) => {
+
+	const cookieOptions = {
+		expires: new Date(Date.now() + 2*1000),
+		httpOnly: true
+	}
+	
+	// Sending new cookie with rubbish text to replace the new cookie ->
+	res.cookie('jwt', 'loggedout', cookieOptions);
+	
+	res.status(200).json({
+		message: 'success'
+	});
+}
 exports.restrictTo = (...roles) => {
 	return (req, res, next) => {
 		if (!roles.includes(req.user.adminStatus)) {

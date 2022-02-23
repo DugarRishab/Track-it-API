@@ -98,3 +98,23 @@ export const sendVerifyRequest = async (code) => {
 	}
 	
 }
+
+export const logout = async () => {
+	try {
+		const res = await axios({
+			method: 'GET',						// <- Axios also triggers the errors
+			url: '/api/v1/users/logout',
+		
+		});
+
+		if (res.data.message === 'success') {
+			showAlert('success', 'Logged out Successfully');
+			window.setTimeout(() => {
+				location.assign('/');
+			}, 1500);
+		}
+	}
+	catch (err) {
+		showAlert('error', err.response.data.message);
+	}
+}

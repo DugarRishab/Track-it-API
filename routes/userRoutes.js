@@ -6,6 +6,8 @@ const Router = express.Router();
 
 Router.post('/signup', authController.signup, authController.createSendOtp);
 Router.post('/login', authController.login, authController.createSendOtp);
+Router.get('/logout', authController.protect, authController.logout);
+
 Router.patch('/changeAdminStatus',
 	authController.protect,
 	authController.restrictTo('administrator', 'director'),
