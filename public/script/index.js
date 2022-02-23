@@ -223,7 +223,7 @@ if (currentPath === '/tasks') {
 		console.log('click detected');
 		clearInterval(reloadIntervalId);
 		logout();
-		
+
 	})
 
 }

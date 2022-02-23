@@ -342,7 +342,7 @@ footer .links .link{
 	cursor: pointer;
 }
 .task-item.late3{
-	background-color: rgba(59, 0, 0, 0.25);
+	-background-color: rgba(59, 0, 0, 0.25);
 }
 .heading-task{
 	color: var(--white);
@@ -674,7 +674,7 @@ header .extra-options .user .profile-img{
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-
+	cursor: pointer;
 }
 .menu .items .item span{
 
@@ -688,6 +688,7 @@ header .extra-options .user .profile-img{
 }
 .menu .items .item.error{
 	color: var(--red);
+
 }
 .menu .items .bottom-deck{
 	margin-top: 80px;
@@ -1042,6 +1043,7 @@ header{
 	font-size: 20px;
 	z-index: 100;
 	padding: 20px 40px 20px 40px;
+	border-radius: 10px 10px 10px 10px;
 }
 .alert.success{
 	background-color: var(--greenDark);
