@@ -131,7 +131,7 @@ export const createTaskItem = (task) => {
 		assign1NameText.innerHTML = `${task.assignedTo[0].name.split(' ')[0]}, ${task.assignedTo[1].name.split(' ')[0]}`;
 	}
 	if (task.assignedTo.length >= 3) {
-		assign1NameText.innerHTML = `${task.assignedTo[0].name.split(' ')[1]}, ${task.assignedTo[1].name.split(' ')[0]}, ${task.assignedTo[2].name.split(' ')[0]}`;
+		assign1NameText.innerHTML = `${task.assignedTo[0].name.split(' ')[0]}, ${task.assignedTo[1].name.split(' ')[0]}, ${task.assignedTo[2].name.split(' ')[0]}`;
 	}
 	
 
