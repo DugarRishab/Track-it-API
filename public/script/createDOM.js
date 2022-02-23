@@ -288,9 +288,9 @@ export const createTaskGroup = (data, option) => {
 // 	const taskAssignItem2 = taskItem.querySelectorAll('.assign .item')[1];
 // 	if (taskContents.querySelector('.text .heading-task').innerHTML !== task.title);
 // 	if (taskContents.querySelector('.text .text-task').innerHTML !== task.description);
-// 	if(taskAssignItem1.querySelector('.profile-img-stack .profile-img').style.)
-
+// 	if(taskAssignItem1.querySelector('.profile-img-stack .profile-img').style.)\
 // }
+
 export const checkUpdateTaskGroup = (data, option) => {
 	const mainBody = document.querySelector(".main");
 	const taskGroups = mainBody.querySelectorAll(".task-group");
