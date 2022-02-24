@@ -63,9 +63,9 @@ exports.createTask = catchAsync(async (req, res, next) => {		// TODO: Update: th
 
 	res.status(200).json({
 		message: 'success',
-		data: [
+		data: {
 			task
-		]
+		}
 	});  
 
 });
@@ -194,3 +194,86 @@ exports.getUserTasks = catchAsync(async (req, res, next) => {
 	//console.log(log.success("res sent"));
 		
 })
+exports.markComplete = catchAsync(async (req, res, next) => {
+	
+	const { user } = req;
+	const { taskId } = req.params;
+
+	const task = await Task.findOne({ taskId });
+
+	if (!task) {
+		return next(new AppError('This task doesnot exists', 404));
+	}
+	//console.log('assigned By:', user.id, " and ", task.assignedBy);
+	if (!task.assignedTo.includes(user.id)) {
+		return next(new AppError('You donot have access to this task', 401));
+	}
+
+	const updatedTask = await Task.findOneAndUpdate({ taskId }, { completed: true }, { new: true });
+
+	res.status(200).json({
+		message: "success",
+		data: {
+			task: updatedTask
+		}
+	});
+	
+});
+exports.deleteTask = catchAsync(async (req, res, next) => {
+	const { user } = req;
+	const { taskId } = req.params;
+
+	const task = await Task.findOne({ taskId });
+
+	if (!task) {
+		return next(new AppError('This task doesnot exists', 404));
+	}
+	console.log('assigned By:', user.id, " and ", task.assignedBy);
+	if (`${task.assignedBy}` !== user.id) {
+		return next(new AppError('You donot have access to this task', 401));
+	}
+
+	await Task.findOneAndDelete({ taskId });
+
+	res.status(200).json({
+		message: 'success'
+	});
+
+});
+exports.updateTask = catchAsync(async (req, res, next) => {
+
+	const { user } = req;
+	const { taskId } = req.params;
+	const { body } = req;
+
+	//console.log(body);
+
+	const task = await Task.findOne({ taskId });
+
+	if (!task) {
+		return next(new AppError('This task doesnot exists', 404));
+	}
+	//console.log('assigned By:', user.id, " and ", task.assignedBy);
+	if (`${task.assignedBy}` !== user.id) {
+		return next(new AppError('You donot have access to this task', 401));
+	}
+	// eslint-disable-next-line no-prototype-builtins
+	if (body.hasOwnProperty('completed')) {
+		//console.log(body.completed);
+		if (!task.assignedTo.includes(user.id)) {
+			return next(new AppError('You cannot change this property', 401));
+		}
+	}
+
+	const updatedTask = await Task.findOneAndUpdate({ taskId }, body, {
+		new: true,
+		runValidators: true
+	});
+
+	res.status(200).json({
+		message: 'success',
+		data: {
+			task: updatedTask
+		}
+	});
+});

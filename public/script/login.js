@@ -19,6 +19,7 @@ export const login = async (email, password) => {
 			//showAlert('success', 'logged in successfully');
 			///console.log("LOged in succesfully");
 			showAlert('success', 'Logged in Successfully');
+			//alert('logged out');
 			window.setTimeout(() => {
 				location.assign('/tasks');
 			}, 1500);
@@ -109,9 +110,10 @@ export const logout = async () => {
 
 		if (res.data.message === 'success') {
 			showAlert('success', 'Logged out Successfully');
+			alert('logged out');
 			window.setTimeout(() => {
 				location.assign('/');
-			}, 1500);
+			}, 2500);
 		}
 	}
 	catch (err) {

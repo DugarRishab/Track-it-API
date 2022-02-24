@@ -973,6 +973,25 @@ header{
 .form-task .form-item.multiple-x .item label{
 	font-size: 17px;
 }
+.form-task input[type="datetime-local"]::-webkit-calendar-picker-indicator{
+	
+	-display: none;
+	-opacity: 0;
+	position: relative;
+}
+.form-task input[type="datetime-local"]::-webkit-calendar-picker-indicator::after{
+	content: "<span class='material-icons'> calendar_today</span>";
+	content: "111";
+	position: absolute;
+	border: 1px solid red;
+	top: 0;
+	left: 0;
+	width: 24px;
+	height: 24px;
+	color: white;
+}
+
+input::-webkit-cal
 
 /* PROFILE */
 .profile{

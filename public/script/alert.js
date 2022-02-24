@@ -12,6 +12,7 @@ export const showAlert = (type, msg) => {
 	//console.log('alert created');
 	window.setTimeout( removeAlert , 5000);
 }
+
 export const removeAlert = () => {
 
 	const alert = document.querySelector('.alert');

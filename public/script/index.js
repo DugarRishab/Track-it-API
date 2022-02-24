@@ -17,8 +17,7 @@ if (logo) {
 		window.location.reload();
 	})
 }
-//console.log(`/${/^tasks/}`);
-//console.log("path: ", currentPath);
+
 if (currentPath === '/tasks') {
 	
 	const tabs = document.querySelector(".main header .tabs");
@@ -222,30 +221,12 @@ if (currentPath === '/tasks') {
 	logoutBtn.addEventListener('click', () => {
 		console.log('click detected');
 		clearInterval(reloadIntervalId);
+		showAlert('success', 'trying logging out');
 		logout();
 
-	})
+	});
 
 }
-
-// const loginForm = document.querySelector("form.form-user");
-// console.log("script Found");
-
-// if (loginForm) {
-// 	console.log("Form Found");
-	
-// 	loginForm.addEventListener('submit', e => {
-		
-// 		e.preventDefault();
-// 		console.log("Submit");
-
-// 		const inputEmail = loginForm.querySelector("#input-email").value;
-// 		const inputPass = loginForm.querySelector("#input-password").value;
-
-// 		login(inputEmail, inputPass);
-// 	});
-
-// }
 
 if (currentPath === '/') {
 
