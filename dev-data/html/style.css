@@ -12,11 +12,12 @@
 	--whiteFaded: rgb(245, 245, 245, 0.5);
 	--green: rgb(27, 203, 56, 0.8);
 	--green: rgba(0, 228, 10, 1);
+	--greenSolid: rgb(0, 32, 3);
 	--yellow: rgba(246, 201, 21, 1);
 	--blue: rgba(110, 195, 255, 0.918);
 
 	--red:  rgba(255, 34, 34, 0.8);
-	--bg-green: rgba(27, 203, 56, 0.05);
+	--bg-green: rgba(27, 203, 56, 0.253);
 	--bg-red:  rgba(228, 0, 0, 0.05);
 
 	--font: 'roboto', sans-serif;
@@ -39,6 +40,35 @@ body{
 	background-color: var(--accentColor) !important;
 	color: var(--white) !important;
 	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) !important;
+}
+.btn.secondary--active{
+	background-color: none !important;
+	color: var(--blue) !important;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) !important;
+	border: 2px solid var(--accentColor);
+}
+.btn.secondary--active:hover{
+	background-color: var(--accentColor) !important;
+	color: var(--white) !important;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) !important;
+	border: 2px solid var(--accentColor);
+}
+.btn.tertiary--active{
+	background-color: none !important;
+	color: var(--blue) !important;
+	-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) !important;
+	border: 0px solid var(--accentColor);
+	opacity: 70%;
+}
+.btn.tertiary--active.error{
+	color: var(--red) !important;
+}
+.btn.tertiary--active:hover{
+	background-color: none !important;
+	-olor: var(--blue) !important;
+	-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) !important;
+	border: 0px solid var(--accentColor);
+	opacity: 100%;
 }
 .block{
 	width: 100%;
@@ -316,7 +346,7 @@ footer .links .link{
 /* TASK ITEM */
 .task-item{
 	width: 500px;
-	height: 200px;
+	height: fit-content;
 	background-color: rgba(0, 0, 0, 0.25);
 	border: 0px solid red;
 	border-radius: 15px;
@@ -324,17 +354,50 @@ footer .links .link{
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	transition: all 0.5s;
+	-position: relative;
+}
+.task-item .alert{
+	width: 100%;
+	-width: fit-content;
+	font-style: italic;
+	font-size: 15px;
+	border-radius: 15px 15px 0 0;
+	padding: 5px 0 5px 0;
+	transition: all 0.5s;
+}
+.task-item .alert.success{
+	color: var(--green);
+	background-color: var(--bg-green);
+
+}
+.task-item .alert a{
+	margin: 5px 20px 5px 20px;
 }
 .task-item.late3{
-	background-color: rgba(255, 0, 0, 0.05);
+	-background-color: rgba(255, 0, 0, 0.05);
+}
+.task-item:hover .alert{
+	-display: none;
+	opacity: 0;
+	-height: 0;
+	transition: all 0.5s;
+}
+.task-item:hover{
+	transform: scale(1.05);
+	transition: all 0.5s;
 }
 .heading-task{
 	color: var(--white);
 	font-size: 25px;
+	line-height: 30px;
 }
 .text-task{
 	color: var(--whiteFaded);
 	font-size: 17px;
+	line-height: 23px;
+	letter-spacing: 0.75px;
+	word-spacing: 2px;
 }
 .link{
 	color: var(--accentColor2);
@@ -358,12 +421,15 @@ footer .links .link{
 }
 .task-item .contents .text .heading-task{
 	border: 0px solid blue;
+	max-height: 30x;
+	overflow: hidden;
 }
 .task-item .contents .text .text-task{
 	margin: 10px 0 0 0px;
 	border: 0px solid yellow;
-	max-height: 40px;
+	max-height: 45px;
 	overflow: hidden;
+	line-height: ;
 }
 .task-item .contents .time{
 	color: var(--green);
@@ -390,36 +456,36 @@ footer .links .link{
 	flex-flow: row nowrap;
 	justify-content: space-around;
 }
-.task-item .contents .time .icons i{
+.task-item .contents .time .icons span{
 	opacity: 0;
 	transition: 0.5s;
 	cursor: pointer;
 }
-.task-item:hover .contents .time .icons i{
+.task-item:hover .contents .time .icons span{
 	opacity: 50%;
 	transition: 0.25s;
 	position: relative;
 }
-.task-item:hover .contents .time .icons i:hover{
+.task-item:hover .contents .time .icons span:hover{
 	opacity: 100%;
 	transition: 0.25s;
 }
-.task-item .contents .time .icons i.add,
-.task-item.late2 .contents .time .icons i.add,
-.task-item.late3 .contents .time .icons i.add{
+.task-item .contents .time .icons span.add,
+.task-item.late2 .contents .time .icons span.add,
+.task-item.late3 .contents .time .icons span.add{
 	color: var(--white);
 }
-.task-item .contents .time .icons i.done,
-.task-item.late2 .contents .time .icons i.done,
-.task-item.late3 .contents .time .icons i.done{
+.task-item .contents .time .icons span.done,
+.task-item.late2 .contents .time .icons span.done,
+.task-item.late3 .contents .time .icons span.done{
 	color: var(--green)
 }
-.task-item .contents .time .icons i.no,
-.task-item.late2 .contents .time .icons i.no,
-.task-item.late3 .contents .time .icons i.no{
+.task-item .contents .time .icons span.no,
+.task-item.late2 .contents .time .icons span.no,
+.task-item.late3 .contents .time .icons span.no{
 	color: var(--red);
 }
-.task-item .contents .time .icons i.add:hover::after{
+.task-item .contents .time .icons span.add:hover::after{
 	content: "Add to  My  Day";
 	position: absolute;
 	font-size: 10px;
@@ -430,7 +496,7 @@ footer .links .link{
 	color: var(--whiteFaded);
 	letter-spacing: 1px;
 }
-.task-item .contents .time .icons i.no:hover::after{
+.task-item .contents .time .icons span.no:hover::after{
 	content: "Reject Task";
 	position: absolute;
 	font-size: 10px;
@@ -440,8 +506,8 @@ footer .links .link{
 	border: 0px solid red;
 	letter-spacing: 1px;
 }
-.task-item .contents .time .icons i.done:hover::after{
-	content: "Done";
+.task-item .contents .time .icons span.done:hover::after{
+	content: "Completed";
 	position: absolute;
 	font-size: 10px;
 	width: 50px;
@@ -499,6 +565,87 @@ footer .links .link{
 	flex-direction: column;
 	margin: 0 0 0 10px;
 }
+.task-item.expand{
+	width: 1000px;
+	/* max-height: 500px;
+	overflow-y: scroll; */
+
+}
+.task-item.expand .contents .text .heading-task{
+	max-height: none;
+	overflow: visible;
+}
+.task-item.expand .contents .text .text-task{
+	margin: 10px 0 0 0px;
+	border: 0px solid yellow;
+	max-height: none;
+	overflow: visible;
+}
+.task-item.expand .assign{
+	justify-content: space-around;
+	-background-color: var(--whiteFaded);
+}
+.task-item.expand .assign .item{
+	flex-direction: column;
+	border: solid 0px red;
+	min-width: 300px;
+	-max-width: 500px;
+	width: fit-content;
+	max-height: 200px;
+	overflow-y: scroll;
+	/* flex-grow: 1; */
+	
+}
+.task-item.expand .assign .item.larger{
+	flex-grow: 1;
+	max-width: 580px;
+	-flex-shrink: 1;
+}
+.task-item.expand .assign .item.larger .profile{
+	margin: 5px;
+}
+.task-item.expand .assign .item .contents{
+	display: flex;
+	flex-direction: column;
+	padding: 0px;
+	flex-grow: 1;
+	flex-flow: row wrap;
+}
+.task-item.expand .assign .item .heading-task{
+	font-size: 20px;
+}
+.task-item .options{
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+	border: 0px solid rebeccapurple;
+	margin: 5px;
+	display: none;
+	opacity: 0;
+	transition: all 0.5s;
+}
+.task-item.expand .options{
+	display: flex;
+}
+.options .item .btn{
+	font-size: 15px;
+	transition: all 0.2s;
+}
+.task-item:hover .options{
+	display: flex;
+	transition: all 0.5s;
+	opacity: 100%;
+}
+.task-item.disabled{
+	color: grey !important;
+}
+.task-item.disbaled.late2 .contents .time{
+	color: grey !important;
+}
+
+
+
+
 
 /* HEADER */
 
@@ -919,20 +1066,23 @@ body.task{
 	flex-flow: row nowrap;
 	justify-content: space-between;
 	align-items: center;
-	margin: 10px;
+	margin: 5px 0 5px 0;
 	position: relative;
+	padding: 10px;
+	border-radius: 5px;
 }
 .profile .left-section{
 	display: flex;
 	align-items: center;
 	margin-left: 10px;
+	margin-right: 10px;
 }
 .profile .uid{
 	color: var(--whiteFaded);
 }
 .profile .profile-img{
-	width: 40px;
-	height: 40px;
+	width: 35px;
+	height: 35px;
 }
 .profile .left-section .name{
 	margin: 0 10px 0 10px;
@@ -958,6 +1108,16 @@ body.task{
 .profile:hover .cross-btn{
 	opacity: 100;
 }
+.profile:hover{
+	background-color: rgba(245, 245, 245, 0.075);
+}
+.profile .left-section .name .role{
+	color: var(--whiteFaded);
+	font-size: 12px;
+	font-weight: 300;
+}
+
+
 
 .trials{
 	width: 100px;

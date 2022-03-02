@@ -1,10 +1,11 @@
 import moment from 'moment';
 import { monthShort } from './utils';
 import { profileImageStackLayout } from "./style";
+import { completeTask } from './getData';
 
-export const createTaskItem = (task) => {
+export const createTaskItem = (task, options) => {
 
-	//console.log(task);
+	//console.log("creating task: ", options);
 	const startDate = new moment(task.startDate);
 	const endDate = new moment(task.endDate);
 	const currentDate = new moment(Date.now());
@@ -27,11 +28,78 @@ export const createTaskItem = (task) => {
 	}
 	
 	// inside task item: 
+	const alertItem = document.createElement("div");
 	const contents = document.createElement("div");
 	const assign = document.createElement("div");
+	const extraOptions = document.createElement("div");
 	contents.classList.add("contents");
 	assign.classList.add("assign");
+	alertItem.classList.add('alert-box');
+	alertItem.classList.add('success');
+	extraOptions.classList.add('options');
+	//alertTime.classList.add('success');
 
+	// extraOptions.innerHTML = `<div class="item">
+	// 		<div class="btn tertiary--active">Complete</div>
+	// 	</div>
+	// 	<div class="item">
+	// 		<div class="btn tertiary--active">Edit</div>
+	// 	</div>
+	// 	<div class="item">
+	// 		<div class="btn tertiary--active">Delete</div>
+	// 	</div>`
+	
+	// inside task-item .options:
+	const extraOption1 = document.createElement("div");
+	const extraOption2 = document.createElement("div");
+	const extraOption3 = document.createElement("div");
+	extraOption1.classList.add('item');
+	extraOption2.classList.add('item');
+	extraOption3.classList.add('item');
+
+
+	// inside task-item .options .item:
+	const completeBtn = document.createElement("div");
+	const editBtn = document.createElement("div");
+	const deleteBtn = document.createElement("div");
+	completeBtn.classList.add("btn");
+	completeBtn.classList.add("tertiary--active");
+	editBtn.classList.add("btn");
+	editBtn.classList.add("tertiary--active");
+	deleteBtn.classList.add("btn");
+	deleteBtn.classList.add("tertiary--active");
+	completeBtn.classList.add("complete-btn");
+	deleteBtn.classList.add("delete-btn");
+	editBtn.classList.add("edit-btn");
+	deleteBtn.classList.add("error");
+	completeBtn.innerHTML = "Complete";
+	editBtn.innerHTML = "Edit";
+	deleteBtn.innerHTML = "Delete"; 
+
+	completeBtn.addEventListener("click", () => {
+		console.log("click detected");
+		completeTask(task.taskId);
+	});
+
+	extraOption1.appendChild(editBtn);
+	extraOption2.appendChild(deleteBtn);
+	extraOption3.appendChild(completeBtn);
+
+	if (options.tab == 0) {
+		extraOptions.append( extraOption3);
+	}
+	else {
+		//extraOptions.append(extraOption1);
+		extraOptions.append(extraOption2);
+	}
+
+	//extraOptions.append(extraOption1, extraOption2, extraOption3);
+
+
+	// inside task-item .alert:
+	const alertText = document.createElement("a");
+	alertText.innerHTML = options.message;
+	
 	// inside .task-item .contents:
 	const text = document.createElement("div");
 	text.classList.add("text");
@@ -158,11 +226,18 @@ export const createTaskItem = (task) => {
 	text.appendChild(contentText);
 	text.appendChild(contentLink);
 
+	alertItem.appendChild(alertText);
+
 	contents.appendChild(text);
 	contents.appendChild(time);
 
+	if (options.alert) {
+		taskItem.appendChild(alertItem);
+	}
+	
 	taskItem.appendChild(contents, assign);
 	taskItem.appendChild(assign);
+	taskItem.appendChild(extraOptions);
 
 	assignImages.appendChild(assign1Image1);
 	if (task.assignedTo.length >= 2) {
@@ -190,8 +265,28 @@ export const createTaskItem = (task) => {
 	assign.appendChild(assignItem1);
 	assign.appendChild(assignItem2);
 
+
+
 	return taskItem;
 
+}
+const updateTaskBtnEventListener = () => {
+	const taskItems = document.querySelectorAll(".task-item");    
+	taskItems.formEach(task => {
+		const taskCompleteBtn = task.querySelector(".complete-btn");
+		if (taskCompleteBtn) {
+
+			taskCompleteBtn.addEventListener("click", () => {
+				console.log("click detected");
+				updateTask(task.getAttribute("data-taskId"), { complete: true });
+			})
+			
+		}
+	});
+}
+
+const sendCompleteTask = () => {
+	
 }
 export const removeAllTaskGroups = () => {
 
@@ -217,7 +312,8 @@ export const removeTaskGroup = (projectId) => {
 	//const taskGroupToBeRemoved = Array.from(previousTaskGroups).find(group => (group.projectId === projectId));
 	taskGroupToBeRemoved.parentElement.removeChild(taskGroupToBeRemoved);
 }
-export const createTaskGroup = (data, option) => {
+
+export const createTaskGroup = (data, options) => {
 
 	const mainBody = document.querySelector(".main");
 	const {
@@ -226,12 +322,14 @@ export const createTaskGroup = (data, option) => {
 		assignedToUserTasks
 	} = data;
 
+	const { tab, firstLoad } = options;
+
 	let currentTasks = [];
 
-	if (option == 0) {
+	if (tab == 0) {
 		currentTasks = assignedToUserTasks;
 		//console.log("option 0 found: ",option);
-	} else if (option == 1) {
+	} else if (tab == 1) {
 		//console.log("option 1 found: ", option);
 		currentTasks = assignedByUserTasks;
 	}
@@ -242,12 +340,15 @@ export const createTaskGroup = (data, option) => {
 
 		if (projectTasks.length !== 0) {
 
+
+			//console.log('creating task-group: ', project.projectId);
+
 			const taskGroup = document.createElement("div");
 			const taskGroupContents = document.createElement("div");
 			taskGroup.classList.add('task-group');
 			taskGroupContents.classList.add("group-contents");
 			taskGroup.setAttribute("data-projectId", `${project.projectId}`);
-
+			//console.log(' still creating task-group: ', project.projectId);
 			const header = document.createElement("header");
 			const title = document.createElement("div");
 			const titleSubName = document.createElement("div");
@@ -261,10 +362,18 @@ export const createTaskGroup = (data, option) => {
 			titleName.innerHTML = project.name;
 
 			projectTasks.forEach(task => {
-				const taskItem = createTaskItem(task);
+
+				// const taskItem = createTaskItem(task, {
+				// 	alert: !firstLoad,
+				// 	message: "New Task Created"
+				// });
+				const taskItem = createTaskItem(task, {
+					alert: !firstLoad,
+					message: "New Task Created",
+					tab
+				});
 
 				taskGroupContents.appendChild(taskItem);
-
 				//console.log("type of return: ", typeof taskItem);
 			});
 
@@ -281,6 +390,80 @@ export const createTaskGroup = (data, option) => {
 	});
 	//console.log("DATA RECIEVED");
 }
+// export const createNoProjectTaskGroup = (data) => {
+
+// 	const mainBody = document.querySelector(".main");
+// 	const {
+		
+// 		assignedByUserTasks,
+// 		assignedToUserTasks
+// 	} = data;
+
+// 	const { tab, firstLoad } = options;
+
+// 	let currentTasks = [];
+
+// 	if (tab == 0) {
+// 		currentTasks = assignedToUserTasks;
+// 		//console.log("option 0 found: ",option);
+// 	} else if (tab == 1) {
+// 		//console.log("option 1 found: ", option);
+// 		currentTasks = assignedByUserTasks;
+// 	}
+
+// 	projects.forEach(project => {
+
+// 		const projectTasks = currentTasks.filter(task => (task.projectId === project.projectId));
+
+// 		if (projectTasks.length !== 0) {
+
+// 			const taskGroup = document.createElement("div");
+// 			const taskGroupContents = document.createElement("div");
+// 			taskGroup.classList.add('task-group');
+// 			taskGroupContents.classList.add("group-contents");
+// 			taskGroup.setAttribute("data-projectId", `${project.projectId}`);
+
+// 			const header = document.createElement("header");
+// 			const title = document.createElement("div");
+// 			const titleSubName = document.createElement("div");
+// 			const titleName = document.createElement("div");
+
+// 			title.classList.add("title");
+// 			titleSubName.classList.add("sub-name");
+// 			titleName.classList.add("name");
+
+// 			titleSubName.innerHTML = "PROJECT";
+// 			titleName.innerHTML = project.name;
+
+// 			projectTasks.forEach(task => {
+
+// 				// const taskItem = createTaskItem(task, {
+// 				// 	alert: !firstLoad,
+// 				// 	message: "New Task Created"
+// 				// });
+// 				const taskItem = createTaskItem(task, {
+// 					alert: !firstLoad,
+// 					message: "New Task Created",
+// 					tab
+// 				});
+
+// 				taskGroupContents.appendChild(taskItem);
+// 				//console.log("type of return: ", typeof taskItem);
+// 			});
+
+// 			title.appendChild(titleSubName);
+// 			title.appendChild(titleName);
+// 			header.appendChild(title);
+// 			taskGroup.appendChild(header);
+// 			taskGroup.appendChild(taskGroupContents);
+
+// 			mainBody.appendChild(taskGroup);
+
+// 			profileImageStackLayout();
+// 		}
+// 	});
+// 	//console.log("DATA RECIEVED");
+// }
 // export const checkUpdateTaskItem = (task) => {
 // 	const taskItem = document.querySelector(`["data-taskId" = ${task.taskId}]`);
 // 	const taskContents = taskItem.querySelector('.contents');
@@ -291,7 +474,7 @@ export const createTaskGroup = (data, option) => {
 // 	if(taskAssignItem1.querySelector('.profile-img-stack .profile-img').style.)\
 // }
 
-export const checkUpdateTaskGroup = (data, option) => {
+export const checkUpdateTaskGroup = (data, options) => {
 	const mainBody = document.querySelector(".main");
 	const taskGroups = mainBody.querySelectorAll(".task-group");
 	//console.log(taskGroups);
@@ -301,28 +484,60 @@ export const checkUpdateTaskGroup = (data, option) => {
 	// taskGroups.forEach(group => {
 	// 	console.log(group.getAttribute('data-projectId') === 'aaa');	
 	// })
+	
+	const { tab, firstLoad } = options;
+
+	console.log('data: ', data);
 	const {
 		projects,
 		assignedByUserTasks,
 		assignedToUserTasks
 	} = data;
 
+	const fakeProject = {
+		projectId: 'noProjectId',
+		name: 'OTHER TASKS'
+	}
+	
+	let flag1 = 0;
+	projects.forEach(project => {
+		if (project.projectId === 'noProjectId') {
+			flag1++;
+		}
+	});
+	if (flag1 == 0) {
+		projects.push(fakeProject);
+	}
+
+	assignedByUserTasks.forEach(task => {
+		if (!task.projectId) {
+			//console.log('projectId not found');
+			task.projectId = 'noProjectId'
+		}
+	});
+	assignedToUserTasks.forEach(task => {
+		if (!task.projectId) {
+			//console.log('projectId not found');
+			task.projectId = 'noProjectId'
+		}
+	});
+
 	let currentTasks = [];
 
-	if (option == 0) {
+	if (tab == 0) {
 		currentTasks = assignedToUserTasks;
-		//console.log("option 0 found: ",option);
-	} else if (option == 1) {
+		//console.log("tab 0 found: ",tab);
+	} else if (tab == 1) {
 		//console.log("option 1 found: ", option);
 		currentTasks = assignedByUserTasks;
 	}
 
-	const extraTaskGroups =  Array.from(taskGroups).filter(group => {	// TODO: FORMAT ALL CODE USING DATA ATTRIBUTE
+	const extraTaskGroups =  Array.from(taskGroups).filter(group => {	
 		const checkProject = projects.filter(project => {
 			
 			return ((group.getAttribute(`data-projectId`) === project.projectId ));
 		});
-		if (checkProject.length !== 0 || group.getAttribute('id') === 'no-project')
+		if (checkProject.length !== 0)
 			return false;
 		return true;
 		//if(mainBody.querySelector(`[data-]`))
@@ -331,19 +546,25 @@ export const checkUpdateTaskGroup = (data, option) => {
 	//console.log("extraTaskGroups: ", extraTaskGroups);
 
 	extraTaskGroups.forEach(group => {
-		if(group.getAttribute('id') !== 'no-project')
-			removeTaskGroup(group.getAttribute(`projectId`))
+		if (group.getAttribute('id') !== 'no-project') {
+			console.log('removing task group', group.getAttribute('data-projectId'));
+			removeTaskGroup(group.getAttribute(`data-projectId`))
+		}
 	});
+	
 
 	const newProjects = projects.filter(project => {
+
 		const checkGroup = Array.from(taskGroups).filter(group => {
-			//console.log('working...1');
+			//console.log('inside new projetcs: ',group.getAttribute(`data-projectId`), project.projectId  );
 			return ((group.getAttribute(`data-projectId`) === project.projectId));
 		});
 		if (checkGroup.length !== 0)
 			return false;
 		return true;
+	
 	});
+
 
 	//console.log("newProjects", newProjects);
 
@@ -351,14 +572,32 @@ export const checkUpdateTaskGroup = (data, option) => {
 		projects: newProjects,
 		assignedByUserTasks,
 		assignedToUserTasks
-	}, option);
+	}, options);
+
+	// const duplicateTaskGroup = Array.from(taskGroups).filter(group => {
+	// 	const duplicates = Array.from(taskGroups).filter(innerGroup => {
+			
+	// 	})
+	// });
+	// let duplicateTaskGroup = [];
+	// for (let i = 0; i < taskGroups.length; i++){
+	// 	for (let j = 0; j < taskGroups.length; j++){
+	// 		if (i !== j && taskGroups[i].getAttribute('data-projectId') === taskGroups[j].getAttribute('data-projectId')) {
+	// 			duplicateTaskGroup.push(taskGroups[j]);
+	// 		}
+	// 	}
+	// }
+
+	// duplicateTaskGroup.forEach(group => {
+	// 	removeTaskGroup(group.getAttribute(`data-projectId`));
+	// });
 	//console.log("array attribute looks like: ", Array.from(taskGroups)[0].getAttribute('projectId'));
 
 	profileImageStackLayout();
 
 	const updatedTaskGroups = mainBody.querySelectorAll(".task-group");
 
-	// All PROJECT RELATED TASKS GROUPS ARE CREATED AND UPDATED ->
+	// All PROJECT RELATED TASKS GROUPS AND UPDATED ->
 	updatedTaskGroups.forEach(group => {
 
 		const currentGroupTasks = group.querySelectorAll('.group-contents .task-item');
@@ -397,13 +636,19 @@ export const checkUpdateTaskGroup = (data, option) => {
 
 		newTasks.forEach(task => {
 			//	console.log("adding taskItem");
-			group.querySelector(".group-contents").append(createTaskItem(task));
+			const taskItem = createTaskItem(task, {
+				alert: !firstLoad,
+				message: "New Task Created",
+				tab
+			});
+			//console.log('task-item', taskItem);
+			group.querySelector(".group-contents").append(taskItem);
 				
 		});
 
 		profileImageStackLayout();
 
-		const updatedGroupTasks = group.querySelectorAll('.group-contents .task-item');
+		//const updatedGroupTasks = group.querySelectorAll('.group-contents .task-item');
 
 		// updatedGroupTasks.forEach(task => {
 		// 	// task.querySelector('.contents .text .heading-task').innerHTML = task.title;
@@ -416,84 +661,128 @@ export const checkUpdateTaskGroup = (data, option) => {
 		// });
 		
 	});
-
 		
-	const noGroupTasks = currentTasks.filter(task => (!task.hasOwnProperty('projectId')));
-	//console.log("noGropupTasks: ", noGroupTasks);
+	// const noGroupTasks = currentTasks.filter(task => (!task.hasOwnProperty('projectId')));
+	// console.log("noGropupTasks: ", noGroupTasks);
 
-	// ALL OTHER_TASKS GROUP IS CREATED AND UPDATED ->
-	if (noGroupTasks.length !== 0) {
-		let noProjectGroup = mainBody.querySelector(".task-group#no-project");
+	// // ALL OTHER_TASKS GROUP IS CREATED AND UPDATED ->
+	// if (noGroupTasks.length !== 0) {
+	// 	let noProjectGroup = mainBody.querySelector(".task-group#no-project");
+	// 	console.log("noProjectTask: ", noProjectGroup);
+	// 	if (!noProjectGroup) {
+	// 		console.log('not found');
+	// 		noProjectGroup = document.createElement("div");
+	// 		noProjectGroup.classList.add('task-group');
+	// 		noProjectGroup.setAttribute('id', 'no-project');
+	// 		const header = document.createElement("header");
+	// 		const title = document.createElement("div");
+	// 		const name = document.createElement("div");
+	// 		const groupContents = document.createElement("div");
+	// 		title.classList.add('title');
+	// 		name.classList.add('name');
+	// 		name.innerHTML = 'OTHER TASKS';
+	// 		groupContents.classList.add('group-contents');
 
-		if (!noProjectGroup) {
-			//console.log('not found');
-			noProjectGroup = document.createElement("div");
-			noProjectGroup.classList.add('task-group');
-			noProjectGroup.setAttribute('id', 'no-project');
-			const header = document.createElement("header");
-			const title = document.createElement("div");
-			const name = document.createElement("div");
-			const groupContents = document.createElement("div");
-			title.classList.add('title');
-			name.classList.add('name');
-			name.innerHTML = 'OTHER TASKS';
-			groupContents.classList.add('group-contents');
+	// 		title.appendChild(name);
+	// 		header.appendChild(title);
 
-			title.appendChild(name);
-			header.appendChild(title);
+	// 		noProjectGroup.appendChild(header);
+	// 		noProjectGroup.appendChild(groupContents);
 
-			noProjectGroup.appendChild(header);
-			noProjectGroup.appendChild(groupContents);
-
-			mainBody.appendChild(noProjectGroup);
+	// 		mainBody.appendChild(noProjectGroup);
 
 
-		}
-		else {
-			//console.log('found');
-		}
-		
-		const currentGroupTasks = noProjectGroup.querySelectorAll('.task-item');
+	// 	}
+	// 	else {
+	// 		console.log('found');
+	// 	}
+	// 	console.log('noProjectGroup: ', noProjectGroup);
+	// 	const currentGroupContents = noProjectGroup.querySelector('div.group-contents');
+	// 	//console.log('groupcontents: ', currentGroupContents);
+	// 	const currentGroupTasks = currentGroupContents.getElementsByClassName("task-item");
+	// 	console.log("currentGroupTasks: ", currentGroupTasks);
+	// 	console.log("typeof: ", typeof currentGroupTasks, Array.isArray(currentGroupTasks));
+	// 	const currentGroupTasksArray = currentGroupTasks;
+	// 	console.log("object.keys: ", Object.keys(currentGroupTasks));
+	// 	//const currentGroupTasksArray = Array.from(currentGroupTasks);
 
-		const newTasks = noGroupTasks.filter(groupTask => {
+	// 	// const newTasks = [];
+	// 	// noGroupTasks.forEach(groupTask => {
+	// 	// 	const checkTask = currentGroupTasks.filter(currentTask => {
+	// 	// 		console.log("attribute: ", currentTask.getAttribute(`data-taskId`));
+	// 	// 		console.log("taskId: ", groupTask.taskId);
+	// 	// 		return currentTask.getAttribute(`data-taskId`) === groupTask.taskId;
+	// 	// 	});
+			
+	// 	// 	if (checkTask === 0) {
+	// 	// 		newTasks.push(groupTask);
+	// 	// 	}
+	// 	// })
 
-			const checkTask = Array.from(currentGroupTasks).filter(currentTask => {
-				return currentTask.getAttribute(`data-taskId`) === groupTask.taskId;
-			});
+	// 	const newTasks = noGroupTasks.filter(groupTask => {
+	// 		console.log("filtering groupTask");
+	// 		const checkTask = [];
+	// 		Object.keys(currentGroupTasksArray).forEach((key) => {
+	// 			const currentTask = currentGroupTasks[key];
+				
+	// 			console.log("attribute: ", currentTask.getAttribute(`data-taskId`));
+	// 			console.log("taskId: ", groupTask.taskId);
+	// 			if (currentTask.getAttribute(`data-taskId`) === groupTask.taskId) {
+	// 				checkTask.push(currentTask);
+	// 			}
+				
+	// 		});
+	// 		if (checkTask.length !== 0)
+	// 			return false;
+	// 		return true;
+	// 	});
+	// 	// const newTasks = noGroupTasks.filter(groupTask => {
+	// 	// 	console.log("filtering groupTask");
+	// 	// 	const checkTask = currentGroupTasksArray.filter(currentTask => {
+	// 	// 		console.log("attribute: ", currentTask.getAttribute(`data-taskId`));
+	// 	// 		console.log("taskId: ", groupTask.taskId);
+	// 	// 		return currentTask.getAttribute(`data-taskId`) === groupTask.taskId;
+	// 	// 	});
 
-			if (checkTask.length !== 0)
-				return false;
-			return true;
-		});
+	// 	// 	if (checkTask.length !== 0)
+	// 	// 		return false;
+	// 	// 	return true;
+	// 	// });
 
-		const extraTasks = Array.from(currentGroupTasks).filter(currentTask => {
-			const checkTask = noGroupTasks.filter(groupTask => {
-				//console.log("task id attr: ",currentTask.getAttribute(`taskId`));
-				//console.log("group task taskId: ", groupTask.taskId);
-				return currentTask.getAttribute(`data-taskId`) === groupTask.taskId;
-			});
-			//console.log("checkTask: ", checkTask);
-			if (checkTask.length !== 0)
-				return false;
-			return true;
-		});
-		//console.log("extra Tasks", extraTasks);
-		//console.log("new Tasks", newTasks);
+	// 	const extraTasks = Array.from(currentGroupTasks).filter(currentTask => {
+	// 		const checkTask = noGroupTasks.filter(groupTask => {
+	// 			//console.log("task id attr: ",currentTask.getAttribute(`taskId`));
+	// 			//console.log("group task taskId: ", groupTask.taskId);
+	// 			return currentTask.getAttribute(`data-taskId`) === groupTask.taskId;
+	// 		});
+	// 		//console.log("checkTask: ", checkTask);
+	// 		if (checkTask.length !== 0)
+	// 			return false;
+	// 		return true;
+	// 	});
 
-		extraTasks.forEach(task => {		// <- This works fine
-			console.log("removing task item");
-			task.parentElement.removeChild(task);
-		});
+	// 	console.log("extra Tasks", extraTasks);
+	// 	console.log("new Tasks", newTasks);
 
-		newTasks.forEach(task => {		// the prblm is in newTasks algo
-			//console.log("adding taskItem");
-			noProjectGroup.querySelector(".group-contents").append(createTaskItem(task));
-			profileImageStackLayout();
-		});
+	// 	extraTasks.forEach(task => {		// <- This works fine
+	// 		console.log("removing task item");
+	// 		task.parentElement.removeChild(task);
+	// 	});
 
-		profileImageStackLayout();
-		
-	}
+	// 	newTasks.forEach(task => {		// the prblm is in newTasks algo
+	// 		//console.log("adding taskItem");
+	// 		const taskItem = createTaskItem(task, {
+	// 			alert: !firstLoad,
+	// 			message: "New Task Created",
+	// 			tab
+	// 		});
+	// 		noProjectGroup.querySelector(".group-contents").appendChild(taskItem);
+			
+	// 		profileImageStackLayout();
+	// 	});
+
+	// 	profileImageStackLayout();
+	// }cxz
 
 }
 

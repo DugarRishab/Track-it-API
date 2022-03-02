@@ -6,7 +6,7 @@ import { success } from '../../utils/colorCli';
 let tasksData, usersData, teamsData;
 let previousTaskData;
 
-export const getTaskData = async (option) => {
+export const getTaskData = async (options) => {
 
 	try {
 	//	console.log("trying to get data");
@@ -24,7 +24,7 @@ export const getTaskData = async (option) => {
 			
 			//removeAllTaskGroups();
 			//createTaskGroup(data, option);
-			checkUpdateTaskGroup(data, option);
+			checkUpdateTaskGroup(data, options);
 			//console.log("after data, option: ", option);
 			tasksData = data;
 			return data;
@@ -145,6 +145,24 @@ export const sendTaskFormData = async (data) => {
 		if (res.data.message === 'success') {
 			//console.log('success');
 			showAlert('success', 'Task created successfully');
+		}
+	}
+	catch (err) {
+		showAlert('error', err.response.data.message);
+	}
+}
+export const completeTask = async (taskId) => {
+	try {
+		const res = await axios({
+			method: 'GET',						// <- Axios also triggers the errors
+			url: `/api/v1/tasks/complete/${taskId}`
+			//data: updateBody
+		});
+
+		if (res.data.message === 'success') {
+			//console.log('success');
+			showAlert('success', 'Task completed successfully');
+			
 		}
 	}
 	catch (err) {

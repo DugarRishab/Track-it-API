@@ -30,10 +30,10 @@ if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev')); // <- 3rd party Middleware Function
 }
 
-app.use((req,res,next) => {	// <- Serves req time and cookies
+app.use((req, res, next) => {	// <- Serves req time and cookies
 	req.requestTime = new Date().toISOString();
 	console.log(req.requestTime);
-	if(req.cookies) console.log(req.cookies);
+	if (req.cookies) console.log(req.cookies);
 	
 	next();
 });
@@ -77,6 +77,5 @@ app.all('*', (req, res, next) => {     // <- Middleware to handle Non-existing R
 });
 
 app.use(errorController); // <- Error Handling Middleware
-
 
 module.exports = app;

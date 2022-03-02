@@ -5,7 +5,7 @@ import fs from 'fs';
 import axios from 'axios';
 
 import { login, registerCompany, signup, sendVerifyRequest, logout } from "./login";
-import { getAssignToSearchData, getTaskData, getUserData, getTeamData, sendTaskFormData } from "./getData";
+import { getAssignToSearchData, getTaskData, getUserData, getTeamData, sendTaskFormData, updateTask } from "./getData";
 import { addAssignToItem, checkUpdateTaskGroup, createTaskGroup, removeAllTaskGroups, removeSearchDropDown } from './createDOM';
 import { showAlert } from './alert';
 //import { profile } from 'console';
@@ -23,9 +23,9 @@ if (currentPath === '/tasks') {
 	const tabs = document.querySelector(".main header .tabs");
 
 	let data;
-	const getData = async (option) => {
+	const getData = async (options) => {
 		try {
-			data = await getTaskData(option);
+			data = await getTaskData(options);
 			//console.log("data: ", data);
 		}
 		catch (err) {
@@ -33,13 +33,15 @@ if (currentPath === '/tasks') {
 		}
 	}
 
-
-	getData(0);
+	getData({
+		tab: 0,
+		firstLoad: true
+	});
 
 	const checkActiveTab = () => {
 		const tabs = document.querySelector(".main header .tabs");
 		const tabItems = tabs.querySelectorAll(".item");
-	//	console.log(tabItems[0].classList.contains('active') ? 0 : 1);
+		//console.log(tabItems[0].classList.contains('active') ? 0 : 1);
 		return tabItems[0].classList.contains('active')? 0 : 1
 	}
 
@@ -56,18 +58,24 @@ if (currentPath === '/tasks') {
 		tabItems[1].classList.toggle('active');
 		//(option === 0) ? 1 : 0;
 		removeAllTaskGroups();
-		checkUpdateTaskGroup(data, checkActiveTab());
-
+		checkUpdateTaskGroup(data, {
+			tab: checkActiveTab(),
+			firstLoad: true
+		});
 	});
 
-	const reloadIntervalId = window.setInterval(reload, 5 * 1000);
+	const reloadIntervalId = window.setInterval(reload, 10 * 1000);
 
 	function reload() {
 		//console.log("reloading...");
 		const option = checkActiveTab();
 		//console.log("option:", option);
-		getData(option);
+		getData({
+			tab: option,
+			firstLoad: false
+		});
 		//checkUpdateTaskGroup(data, option);
+		//updateTaskBtnEventListener();
 	}
 
 	const createTaskBtn = document.querySelector(".main header .btn");
@@ -79,6 +87,24 @@ if (currentPath === '/tasks') {
 
 		})
 	}
+
+	// const updateTaskBtnEventListener = () => {
+	// 	const taskItems = document.querySelectorAll(".task-item");    
+	// 	taskItems.forEach(task => {
+	// 		const taskCompleteBtn = task.querySelector(".complete-btn");
+	// 		if (taskCompleteBtn) {
+
+	// 			taskCompleteBtn.addEventListener("click", () => {
+	// 				console.log("click detected");
+	// 				updateTask(task.getAttribute("data-taskId"), { complete: true });
+	// 			})
+				
+	// 		}
+	// 	});
+	// }
+
+	
+	
 
 	//console.log("create page found");
 

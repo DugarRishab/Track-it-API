@@ -54,6 +54,37 @@ body{
 	color: var(--whiteFaded) !important;
 	cursor:default !important;
 }
+.btn.secondary--active{
+	background-color: none !important;
+	color: var(--blue) !important;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) !important;
+	border: 2px solid var(--accentColor);
+}
+.btn.secondary--active:hover{
+	background-color: var(--accentColor) !important;
+	color: var(--white) !important;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) !important;
+	border: 2px solid var(--accentColor);
+}
+.btn.tertiary--active{
+	background-color: none !important;
+	color: var(--blue) !important;
+	-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) !important;
+	border: 0px solid var(--accentColor);
+	opacity: 70%;
+	cursor: pointer;
+}
+.btn.tertiary--active.error{
+	color: var(--red) !important;
+}
+.btn.tertiary--active:hover{
+	background-color: none !important;
+	-olor: var(--blue) !important;
+	-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25) !important;
+	border: 0px solid var(--accentColor);
+	opacity: 100%;
+	text-decoration: underline;
+}
 .check{
 	display: flex;
 	justify-content: center;
@@ -330,7 +361,7 @@ footer .links .link{
 /* TASK ITEM */
 .task-item{
 	width: 500px;
-	height: 200px;
+	height: fit-content;
 	background-color: rgba(0, 0, 0, 0.25);
 	border: 0px solid red;
 	border-radius: 15px;
@@ -339,7 +370,43 @@ footer .links .link{
 	flex-direction: column;
 	justify-content: space-between;
 	transition: 0.5s all;
-	cursor: pointer;
+	/* cursor: pointer; */
+	-position: relative;
+}
+.task-item .alert-box{
+	width: 100%;
+	-width: fit-content;
+	font-style: italic;
+	font-size: 15px;
+	border-radius: 15px 15px 0 0;
+	padding: 5px 0 5px 0;
+	transition: all 0.5s;
+	opacity: 100%;
+	-position: static;
+	-position: absolute;
+	top: 0;
+	left: 0;
+}
+.task-item .alert-box.success{
+	color: var(--green);
+	background-color: var(--bg-green);
+
+}
+.task-item .alert-box a{
+	margin: 5px 20px 5px 20px;
+}
+.task-item.late3{
+	-background-color: rgba(255, 0, 0, 0.05);
+}
+.task-item:hover .alert-box{
+	-display: none;
+	opacity: 0;
+	-height: 0;
+	transition: all 0.5s;
+}
+.task-item:hover{
+	transform: scale(1.05);
+	transition: all 0.5s;
 }
 .task-item.late3{
 	-background-color: rgba(59, 0, 0, 0.25);
@@ -347,10 +414,14 @@ footer .links .link{
 .heading-task{
 	color: var(--white);
 	font-size: 25px;
+	line-height: 30px;
 }
 .text-task{
 	color: var(--whiteFaded);
 	font-size: 17px;
+	line-height: 23px;
+	letter-spacing: 0.75px;
+	word-spacing: 2px;
 }
 .link{
 	color: var(--blue);
@@ -378,6 +449,18 @@ footer .links .link{
 }
 .task-item .contents .text .heading-task{
 	border: 0px solid blue;
+}
+.task-item .contents .text .heading-task{
+	border: 0px solid blue;
+	max-height: 30x;
+	overflow: hidden;
+}
+.task-item .contents .text .text-task{
+	margin: 10px 0 0 0px;
+	border: 0px solid yellow;
+	max-height: 45px;
+	overflow: hidden;
+	line-height: ;
 }
 .task-item .contents .text .text-task{
 	margin: 10px 0 0 0px;
@@ -519,6 +602,78 @@ footer .links .link{
 	flex-direction: column;
 	margin: 0 0 0 10px;
 }
+.task-item.expand{
+	width: 1000px;
+	/* max-height: 500px;
+	overflow-y: scroll; */
+
+}
+.task-item.expand .contents .text .heading-task{
+	max-height: none;
+	overflow: visible;
+}
+.task-item.expand .contents .text .text-task{
+	margin: 10px 0 0 0px;
+	border: 0px solid yellow;
+	max-height: none;
+	overflow: visible;
+}
+.task-item.expand .assign{
+	justify-content: space-around;
+	-background-color: var(--whiteFaded);
+}
+.task-item.expand .assign .item{
+	flex-direction: column;
+	border: solid 0px red;
+	min-width: 300px;
+	-max-width: 500px;
+	width: fit-content;
+	max-height: 200px;
+	overflow-y: scroll;
+	/* flex-grow: 1; */
+	
+}
+.task-item.expand .assign .item.larger{
+	flex-grow: 1;
+	max-width: 580px;
+	-flex-shrink: 1;
+}
+.task-item.expand .assign .item.larger .profile{
+	margin: 5px;
+}
+.task-item.expand .assign .item .contents{
+	display: flex;
+	flex-direction: column;
+	padding: 0px;
+	flex-grow: 1;
+	flex-flow: row wrap;
+}
+.task-item.expand .assign .item .heading-task{
+	font-size: 20px;
+}
+.task-item .options{
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+	border: 0px solid rebeccapurple;
+	margin: 5px;
+	display: none;
+	opacity: 0;
+	transition: all 0.5s;
+}
+.task-item.expand .options{
+	display: flex;
+}
+.options .item .btn{
+	font-size: 15px;
+	transition: all 0.2s;
+}
+.task-item:hover .options{
+	display: flex;
+	transition: all 0.5s;
+	opacity: 100%;
+}
+
 
 /* HEADER */
 header .logo{
@@ -1047,6 +1202,14 @@ input::-webkit-cal
 }
 .profile:hover .cross-btn{
 	opacity: 100;
+}
+.profile:hover{
+	background-color: rgba(245, 245, 245, 0.075);
+}
+.profile .left-section .name .role{
+	color: var(--whiteFaded);
+	font-size: 12px;
+	font-weight: 300;
 }
 
 /* ALERT */
