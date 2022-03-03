@@ -169,4 +169,22 @@ export const completeTask = async (taskId) => {
 		showAlert('error', err.response.data.message);
 	}
 }
+export const delTask = async (taskId) => {
+	try {
+		const res = await axios({
+			method: 'DELETE',						// <- Axios also triggers the errors
+			url: `/api/v1/tasks/${taskId}`
+			//data: updateBody
+		});
+
+		if (res.data.message === 'success') {
+			console.log('success');
+			showAlert('success', 'Task deleted successfully');
+		}
+	}
+	catch (err) {
+		showAlert('error', err.response.data.message);
+	}
+}
+
 

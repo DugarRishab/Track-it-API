@@ -77,6 +77,9 @@ body{
 .btn.tertiary--active.error{
 	color: var(--red) !important;
 }
+.btn.tertiary--active.success{
+	color: var(--green) !important;
+}
 .btn.tertiary--active:hover{
 	background-color: none !important;
 	-olor: var(--blue) !important;

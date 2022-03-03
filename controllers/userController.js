@@ -80,30 +80,31 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 });
 exports.correctData = catchAsync(async (req, res, next) => {
-	// const projects = await Project.find();
+	const tasks = await Task.find();
 
-	// projects.forEach(async (project) => {
-	// 	try {
-	// 		if (!project.projectId) {
-				
-	// 			//const projectId = project.companyId.split('-')[1];
-	// 			project.projectId = `P-${uid(6)}`
-	// 			console.log(log.debug(project.name, project.projectId));
-	// 			// const projectId = `U-${uid(8)}`;
-	// 			// project.projectId = projectId;
-	// 			await Project.findByIdAndUpdate(project.id, project, {
-	// 				runValidators: true
-	// 			});
-	// 		}
-	// 	}
-	// 	catch (err) {
-	// 		return next(new AppError(err, 400));
-	// 	}
-	// });
-	// res.status(200).json({
-	// 	//message: 'success'
-	// 	message: 'success'
-	// });
+	tasks.forEach(async (task) => {
+		try {
+			task.assignedTo.forEach(async id => {
+				try {
+					const user = await User.findById(id);
+					if (!user) {
+						console.log(task.title);
+						await Task.findByIdAndDelete(task.id);
+					}
+				}
+				catch (err) {
+					return next(new AppError(err, 400));
+				}
+			});
+		}
+		catch (err) {
+			return next(new AppError(err, 400));
+		}
+	});
+	res.status(200).json({
+		//message: 'success'
+		message: 'success'
+	});
 });
 exports.getUser = catchAsync(async (req, res, next) => {
 	const { userId } = req.params;

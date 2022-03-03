@@ -62,6 +62,10 @@ if (currentPath === '/tasks') {
 			tab: checkActiveTab(),
 			firstLoad: true
 		});
+		getData({
+			tab: checkActiveTab(),
+			firstLoad: true
+		});
 	});
 
 	const reloadIntervalId = window.setInterval(reload, 10 * 1000);

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { monthShort } from './utils';
 import { profileImageStackLayout } from "./style";
-import { completeTask } from './getData';
+import { completeTask, delTask } from './getData';
 
 export const createTaskItem = (task, options) => {
 
@@ -79,6 +79,15 @@ export const createTaskItem = (task, options) => {
 	completeBtn.addEventListener("click", () => {
 		console.log("click detected");
 		completeTask(task.taskId);
+	});
+
+	if (task.complete) {
+		completeBtn.classList.add('success');
+	}
+
+	deleteBtn.addEventListener("click", () => {
+		console.log('delete task');
+		delTask(task.taskId);
 	});
 
 	extraOption1.appendChild(editBtn);
@@ -168,11 +177,13 @@ export const createTaskItem = (task, options) => {
 	assign1Image2.classList.add("profile-img");
 	assign1Image3.classList.add("profile-img");
 
-	assign1Image1.style.backgroundImage = `url(/img/${task.assignedTo[0].image})`;
-	if (task.assignedTo.length >= 2) {
+	if (task.assignedTo[0].image) {
+		assign1Image1.style.backgroundImage = `url(/img/${task.assignedTo[0].image})`;
+	}
+	if (task.assignedTo.length >= 2 && task.assignedTo[1].image) {
 		assign1Image2.style.backgroundImage = `url(/img/${task.assignedTo[1].image})`;
 	}
-	if (task.assignedTo.length >= 3) {
+	if (task.assignedTo.length >= 3 && task.assignedTo[2].image) {
 		assign1Image3.style.backgroundImage = `url(/img/${task.assignedTo[2].image})`;
 	}
 	
@@ -284,7 +295,6 @@ const updateTaskBtnEventListener = () => {
 		}
 	});
 }
-
 const sendCompleteTask = () => {
 	
 }
@@ -312,7 +322,6 @@ export const removeTaskGroup = (projectId) => {
 	//const taskGroupToBeRemoved = Array.from(previousTaskGroups).find(group => (group.projectId === projectId));
 	taskGroupToBeRemoved.parentElement.removeChild(taskGroupToBeRemoved);
 }
-
 export const createTaskGroup = (data, options) => {
 
 	const mainBody = document.querySelector(".main");
@@ -473,7 +482,6 @@ export const createTaskGroup = (data, options) => {
 // 	if (taskContents.querySelector('.text .text-task').innerHTML !== task.description);
 // 	if(taskAssignItem1.querySelector('.profile-img-stack .profile-img').style.)\
 // }
-
 export const checkUpdateTaskGroup = (data, options) => {
 	const mainBody = document.querySelector(".main");
 	const taskGroups = mainBody.querySelectorAll(".task-group");
@@ -485,9 +493,11 @@ export const checkUpdateTaskGroup = (data, options) => {
 	// 	console.log(group.getAttribute('data-projectId') === 'aaa');	
 	// })
 	
-	const { tab, firstLoad } = options;
+	//const copyOfData = data.splice(0, data)
+	
+	const { tab, firstLoad } = options; // < Stop object derefrencing. Only way it will work
 
-	console.log('data: ', data);
+	//console.log('data: ', data);
 	const {
 		projects,
 		assignedByUserTasks,
@@ -528,7 +538,7 @@ export const checkUpdateTaskGroup = (data, options) => {
 		currentTasks = assignedToUserTasks;
 		//console.log("tab 0 found: ",tab);
 	} else if (tab == 1) {
-		//console.log("option 1 found: ", option);
+		//console.log("tab 1 found: ", tab);
 		currentTasks = assignedByUserTasks;
 	}
 
@@ -547,7 +557,7 @@ export const checkUpdateTaskGroup = (data, options) => {
 
 	extraTaskGroups.forEach(group => {
 		if (group.getAttribute('id') !== 'no-project') {
-			console.log('removing task group', group.getAttribute('data-projectId'));
+			//console.log('removing task group', group.getAttribute('data-projectId'));
 			removeTaskGroup(group.getAttribute(`data-projectId`))
 		}
 	});
@@ -574,28 +584,10 @@ export const checkUpdateTaskGroup = (data, options) => {
 		assignedToUserTasks
 	}, options);
 
-	// const duplicateTaskGroup = Array.from(taskGroups).filter(group => {
-	// 	const duplicates = Array.from(taskGroups).filter(innerGroup => {
-			
-	// 	})
-	// });
-	// let duplicateTaskGroup = [];
-	// for (let i = 0; i < taskGroups.length; i++){
-	// 	for (let j = 0; j < taskGroups.length; j++){
-	// 		if (i !== j && taskGroups[i].getAttribute('data-projectId') === taskGroups[j].getAttribute('data-projectId')) {
-	// 			duplicateTaskGroup.push(taskGroups[j]);
-	// 		}
-	// 	}
-	// }
-
-	// duplicateTaskGroup.forEach(group => {
-	// 	removeTaskGroup(group.getAttribute(`data-projectId`));
-	// });
-	//console.log("array attribute looks like: ", Array.from(taskGroups)[0].getAttribute('projectId'));
-
 	profileImageStackLayout();
 
 	const updatedTaskGroups = mainBody.querySelectorAll(".task-group");
+	//console.log('task groups: ', updatedTaskGroups);
 
 	// All PROJECT RELATED TASKS GROUPS AND UPDATED ->
 	updatedTaskGroups.forEach(group => {
@@ -603,8 +595,8 @@ export const checkUpdateTaskGroup = (data, options) => {
 		const currentGroupTasks = group.querySelectorAll('.group-contents .task-item');
 		const groupTasks = currentTasks.filter(task => (task.projectId === group.getAttribute(`data-projectId`)));
 		
-		//console.log("task.projectId ", currentTasks[0].projectId);
-		//console.log("group.getAttribute(`projectId`)", group.getAttribute(`data-projectId`));
+	//	console.log("task.projectId ", currentTasks[0].projectId);
+	//	console.log("group.getAttribute(`projectId`)", group.getAttribute(`data-projectId`));
 
 		const newTasks = groupTasks.filter(groupTask => {
 			const checkTask = Array.from(currentGroupTasks).filter(currentTask => {
@@ -617,8 +609,7 @@ export const checkUpdateTaskGroup = (data, options) => {
 
 		const extraTasks = Array.from(currentGroupTasks).filter(currentTask => {
 			const checkTask = groupTasks.filter(groupTask => {
-				//console.log("task id attr: ",currentTask.getAttribute(`taskId`));
-				//console.log("group task taskId: ", groupTask.taskId);
+				
 				return currentTask.getAttribute(`data-taskId`) === groupTask.taskId;
 			});
 			//console.log("checkTask: ", checkTask);
@@ -661,128 +652,6 @@ export const checkUpdateTaskGroup = (data, options) => {
 		// });
 		
 	});
-		
-	// const noGroupTasks = currentTasks.filter(task => (!task.hasOwnProperty('projectId')));
-	// console.log("noGropupTasks: ", noGroupTasks);
-
-	// // ALL OTHER_TASKS GROUP IS CREATED AND UPDATED ->
-	// if (noGroupTasks.length !== 0) {
-	// 	let noProjectGroup = mainBody.querySelector(".task-group#no-project");
-	// 	console.log("noProjectTask: ", noProjectGroup);
-	// 	if (!noProjectGroup) {
-	// 		console.log('not found');
-	// 		noProjectGroup = document.createElement("div");
-	// 		noProjectGroup.classList.add('task-group');
-	// 		noProjectGroup.setAttribute('id', 'no-project');
-	// 		const header = document.createElement("header");
-	// 		const title = document.createElement("div");
-	// 		const name = document.createElement("div");
-	// 		const groupContents = document.createElement("div");
-	// 		title.classList.add('title');
-	// 		name.classList.add('name');
-	// 		name.innerHTML = 'OTHER TASKS';
-	// 		groupContents.classList.add('group-contents');
-
-	// 		title.appendChild(name);
-	// 		header.appendChild(title);
-
-	// 		noProjectGroup.appendChild(header);
-	// 		noProjectGroup.appendChild(groupContents);
-
-	// 		mainBody.appendChild(noProjectGroup);
-
-
-	// 	}
-	// 	else {
-	// 		console.log('found');
-	// 	}
-	// 	console.log('noProjectGroup: ', noProjectGroup);
-	// 	const currentGroupContents = noProjectGroup.querySelector('div.group-contents');
-	// 	//console.log('groupcontents: ', currentGroupContents);
-	// 	const currentGroupTasks = currentGroupContents.getElementsByClassName("task-item");
-	// 	console.log("currentGroupTasks: ", currentGroupTasks);
-	// 	console.log("typeof: ", typeof currentGroupTasks, Array.isArray(currentGroupTasks));
-	// 	const currentGroupTasksArray = currentGroupTasks;
-	// 	console.log("object.keys: ", Object.keys(currentGroupTasks));
-	// 	//const currentGroupTasksArray = Array.from(currentGroupTasks);
-
-	// 	// const newTasks = [];
-	// 	// noGroupTasks.forEach(groupTask => {
-	// 	// 	const checkTask = currentGroupTasks.filter(currentTask => {
-	// 	// 		console.log("attribute: ", currentTask.getAttribute(`data-taskId`));
-	// 	// 		console.log("taskId: ", groupTask.taskId);
-	// 	// 		return currentTask.getAttribute(`data-taskId`) === groupTask.taskId;
-	// 	// 	});
-			
-	// 	// 	if (checkTask === 0) {
-	// 	// 		newTasks.push(groupTask);
-	// 	// 	}
-	// 	// })
-
-	// 	const newTasks = noGroupTasks.filter(groupTask => {
-	// 		console.log("filtering groupTask");
-	// 		const checkTask = [];
-	// 		Object.keys(currentGroupTasksArray).forEach((key) => {
-	// 			const currentTask = currentGroupTasks[key];
-				
-	// 			console.log("attribute: ", currentTask.getAttribute(`data-taskId`));
-	// 			console.log("taskId: ", groupTask.taskId);
-	// 			if (currentTask.getAttribute(`data-taskId`) === groupTask.taskId) {
-	// 				checkTask.push(currentTask);
-	// 			}
-				
-	// 		});
-	// 		if (checkTask.length !== 0)
-	// 			return false;
-	// 		return true;
-	// 	});
-	// 	// const newTasks = noGroupTasks.filter(groupTask => {
-	// 	// 	console.log("filtering groupTask");
-	// 	// 	const checkTask = currentGroupTasksArray.filter(currentTask => {
-	// 	// 		console.log("attribute: ", currentTask.getAttribute(`data-taskId`));
-	// 	// 		console.log("taskId: ", groupTask.taskId);
-	// 	// 		return currentTask.getAttribute(`data-taskId`) === groupTask.taskId;
-	// 	// 	});
-
-	// 	// 	if (checkTask.length !== 0)
-	// 	// 		return false;
-	// 	// 	return true;
-	// 	// });
-
-	// 	const extraTasks = Array.from(currentGroupTasks).filter(currentTask => {
-	// 		const checkTask = noGroupTasks.filter(groupTask => {
-	// 			//console.log("task id attr: ",currentTask.getAttribute(`taskId`));
-	// 			//console.log("group task taskId: ", groupTask.taskId);
-	// 			return currentTask.getAttribute(`data-taskId`) === groupTask.taskId;
-	// 		});
-	// 		//console.log("checkTask: ", checkTask);
-	// 		if (checkTask.length !== 0)
-	// 			return false;
-	// 		return true;
-	// 	});
-
-	// 	console.log("extra Tasks", extraTasks);
-	// 	console.log("new Tasks", newTasks);
-
-	// 	extraTasks.forEach(task => {		// <- This works fine
-	// 		console.log("removing task item");
-	// 		task.parentElement.removeChild(task);
-	// 	});
-
-	// 	newTasks.forEach(task => {		// the prblm is in newTasks algo
-	// 		//console.log("adding taskItem");
-	// 		const taskItem = createTaskItem(task, {
-	// 			alert: !firstLoad,
-	// 			message: "New Task Created",
-	// 			tab
-	// 		});
-	// 		noProjectGroup.querySelector(".group-contents").appendChild(taskItem);
-			
-	// 		profileImageStackLayout();
-	// 	});
-
-	// 	profileImageStackLayout();
-	// }cxz
 
 }
 
