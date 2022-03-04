@@ -18,6 +18,10 @@ export const createTaskItem = (task, options) => {
 	taskItem.classList.add("task-item");
 	taskItem.setAttribute("data-taskId", `${task.taskId}`);
 
+	if (task.completed) {
+		taskItem.classList.add('disabled');
+	}
+
 	if (remainDiff / totalDiff < 0.25) {
 		//console.log("!!! LATE !!!")
 		taskItem.classList.add("late2");
@@ -72,7 +76,7 @@ export const createTaskItem = (task, options) => {
 	deleteBtn.classList.add("delete-btn");
 	editBtn.classList.add("edit-btn");
 	deleteBtn.classList.add("error");
-	completeBtn.innerHTML = "Complete";
+	completeBtn.innerHTML = '<span class="material-icons">done</span > &nbsp; Complete';
 	editBtn.innerHTML = "Edit";
 	deleteBtn.innerHTML = "Delete"; 
 
@@ -81,8 +85,9 @@ export const createTaskItem = (task, options) => {
 		completeTask(task.taskId);
 	});
 
-	if (task.complete) {
+	if (task.completed) {
 		completeBtn.classList.add('success');
+		completeBtn.innerHTML = '<span class="material-icons">done_all</span > &nbsp; Completed';
 	}
 
 	deleteBtn.addEventListener("click", () => {
@@ -280,23 +285,6 @@ export const createTaskItem = (task, options) => {
 
 	return taskItem;
 
-}
-const updateTaskBtnEventListener = () => {
-	const taskItems = document.querySelectorAll(".task-item");    
-	taskItems.formEach(task => {
-		const taskCompleteBtn = task.querySelector(".complete-btn");
-		if (taskCompleteBtn) {
-
-			taskCompleteBtn.addEventListener("click", () => {
-				console.log("click detected");
-				updateTask(task.getAttribute("data-taskId"), { complete: true });
-			})
-			
-		}
-	});
-}
-const sendCompleteTask = () => {
-	
 }
 export const removeAllTaskGroups = () => {
 
@@ -654,7 +642,6 @@ export const checkUpdateTaskGroup = (data, options) => {
 	});
 
 }
-
 export const createSearchDropdown = (results, id) => {
 	
 	const searchBar = document.querySelector(`.search-bar#${id}`);
@@ -725,7 +712,6 @@ export const createSearchDropdown = (results, id) => {
 
 	});
 }
-
 export const removeSearchDropDown = (id) => {
 	const searchBar = document.querySelector(`.search-bar#${id}`);
 
@@ -735,7 +721,6 @@ export const removeSearchDropDown = (id) => {
 		dropdown.parentElement.removeChild(dropdown);
 	}
 }
-
 export const addAssignToItem = (item) => {
 	const taskForm = document.querySelector(".main form.form-task");
 	const assignedToList = taskForm.querySelector(".items#assignedToResult");
@@ -764,5 +749,22 @@ export const addAssignToItem = (item) => {
 		
 	}
 	
+	
+}
+export const updateTask = (task) => {
+	const taskItem = document.querySelector(`.task-item[data-taskId="${task.taskId}"]`);
+	//console.log(taskItem);
+	const completeBtn = taskItem.querySelector('.options .item .complete-btn');
+	if (task.completed) {
+		taskItem.classList.add('disabled');
+		completeBtn.classList.add('success');
+		completeBtn.innerHTML = '<span class="material-icons">done_all</span > &nbsp; Completed'
+		}
+	else {
+		taskItem.classList.remove('disabled');
+		completeBtn.classList.remove('success');
+		completeBtn.innerHTML = '<span class="material-icons">done</span > &nbsp; Complete'
+	}
+
 	
 }

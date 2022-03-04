@@ -74,6 +74,9 @@ body{
 	opacity: 70%;
 	cursor: pointer;
 }
+.btn.tertiary--active:hover span.material-icons{
+	text-decoration: none !important;
+}
 .btn.tertiary--active.error{
 	color: var(--red) !important;
 }
@@ -675,6 +678,25 @@ footer .links .link{
 	display: flex;
 	transition: all 0.5s;
 	opacity: 100%;
+}
+.task-item.disabled{
+	opacity: 50%;
+}
+.task-item.disabled .contents .time{
+	color: var(--white);
+}
+.task-item.late2.disabled .contents .time{
+	color: var(--white);
+}
+.task-item.late3.disabled .contents .time{
+	color: var(--white);
+}
+.complete-btn:hover span.material-icons{
+	font-size: 15px;
+	text-decoration: none !important;
+}.complete-btn span.material-icons{
+	font-size: 15px;
+	text-decoration: none !important;
 }
 
 

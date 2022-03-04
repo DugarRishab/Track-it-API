@@ -209,7 +209,13 @@ exports.markComplete = catchAsync(async (req, res, next) => {
 		return next(new AppError('You donot have access to this task', 401));
 	}
 
-	const updatedTask = await Task.findOneAndUpdate({ taskId }, { completed: true }, { new: true });
+	let updatedTask;
+	if (!task.completed) {
+		updatedTask = await Task.findOneAndUpdate({ taskId }, { completed: true }, { new: true });
+	}
+	else {
+		updatedTask = await Task.findOneAndUpdate({ taskId }, { completed: false }, { new: true });
+	}
 
 	res.status(200).json({
 		message: "success",

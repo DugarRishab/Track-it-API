@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { checkUpdateTaskGroup, createTaskGroup, removeAllTaskGroups, createSearchDropdown, removeSearchDropDown } from './createDOM';
+import { checkUpdateTaskGroup, createTaskGroup, removeAllTaskGroups, createSearchDropdown, removeSearchDropDown, updateTask } from './createDOM';
 import { showAlert } from './alert';
 import { success } from '../../utils/colorCli';
 
@@ -161,8 +161,16 @@ export const completeTask = async (taskId) => {
 
 		if (res.data.message === 'success') {
 			//console.log('success');
-			showAlert('success', 'Task completed successfully');
 			
+			if (res.data.data.task.completed) {
+				showAlert('success', 'Task completed successfully');
+				console.log('complete');
+			}
+			else {
+				showAlert('success', 'Task un-completed successfully');
+				console.log('un-complete');
+			}
+			updateTask(res.data.data.task);
 		}
 	}
 	catch (err) {
