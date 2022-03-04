@@ -174,8 +174,8 @@ if (currentPath === '/tasks') {
 			const startTime = taskForm.querySelector("#start-time").value;
 			const endTime = taskForm.querySelector("#end-time").value;
 			const description = taskForm.querySelector("#description").value;
-			const steps = taskForm.querySelector("#steps").value;
-			const projects = taskForm.querySelector("#project").value;
+			//const steps = taskForm.querySelector("#steps").value;
+			//const projects = taskForm.querySelector("#project").value;
 			const assignedToResult = taskForm.querySelector("#assignedToResult");
 			let assignedTo = [];
 			assignedToResult.childNodes.forEach(result => {
@@ -188,9 +188,9 @@ if (currentPath === '/tasks') {
 				startDate: startTime,
 				endDate: endTime,
 				description,
-				assignedTo,
-				steps,
-				projects
+				assignedTo
+				//steps,
+				//projects
 
 			}
 			sendTaskFormData(data)

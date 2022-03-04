@@ -19,14 +19,15 @@
         .form-item
           label(for='') Description
           textarea.text-area#description(type='text')
+        //- .form-item
+        //-   label(for='') Steps
+        //-   textarea.text-area#steps(type='text')
+        //- .form-item.multiple-x
+        //-   .item
+        //-     label(for='') Project:
+        //-     input#project(type='text')
         .form-item
-          label(for='') Steps
-          textarea.text-area#steps(type='text')
-        .form-item.multiple-x
-          .item
-            label(for='') Project:
-            input#project(type='text')
-          input.btn.primary--inactive(type='submit')
+          input.btn.primary--active(type='submit')
           | Save
       .right-panel
         a Assign To
