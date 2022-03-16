@@ -11,7 +11,7 @@
     "build:js": "parcel build ./public/script/index.js --out-dir ./public/script --out-file bundle.js"
   },
   "author": "Rishab Dugar",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "eslint": "^8.1.0",
     "eslint-config-airbnb": "^18.2.1",
