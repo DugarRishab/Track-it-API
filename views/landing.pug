@@ -1,0 +1,151 @@
+
+doctype html 
+include _header
+html
+	head 
+		block head
+			title Track-it
+			meta(charset='UTF-8')
+			meta(name='viewport' content='width=device-width, initial-scale=1.0')
+			link(rel='preconnect' href='https://fonts.googleapis.com')
+			link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+			link(href='https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap' rel='stylesheet')
+			//- script(src='https://kit.fontawesome.com/a5809f8554.js' )	
+			link(rel='stylesheet' href='/css/style.css')
+			link(rel='icon' type='image/x-icon' href='/img/favicon.png')
+	body 
+
+		// Content ->>
+		.landing-page
+			.main-left
+				+header({logo: true})
+				.logo.large
+					| TRACK-it
+				img#design(src='/img/Group 12.png' alt='')
+			
+			.main-right 
+				#login-form.form-container.active
+					.content
+						.heading-form Login
+						form.form-user(action='')
+							.form-item
+								label(for='input-email') Email
+								input#input-email(type='email' name='' required=true)
+								error.error
+							.form-item
+								label(for='input-password') Password
+								input#input-password(type='password' name='' required=true minlength=8)
+							.form-item.multiple-x
+								//- .item
+								//- 	#check.check
+								//- 		.checkmark
+								//- 			input#remUser.checkbox(type='checkbox' name='')
+								//- 			span.material-icons-outlined done
+								//- 	label(for='remUser') Remember Me
+								.item
+									a#forgot-password-link.link Forgot Your Password?
+							button.btn.primary--active.block.form-item.bold(type='submit')
+								| Login
+							.form-item.multiple-y
+								.item
+									.text.bold
+										a Dont have an Account?
+										a#signup-link.link  Signup
+								.item
+									.text.bold
+										a Company not Registered yet?
+										a#register-company-link.link  Register now
+				#signup-form.form-container
+					.content
+						.heading-form Signup
+						form.form-user(action='')
+							.form-item
+								label(for='input-name') Name
+								input#input-name(type='text' name='' required=true)
+								error.error
+							.form-item
+								label(f/or='input-email') Email
+								input#input-email(type='email' name='' required=true)
+								error.error
+							.form-item
+								label(for='input-company-uid') Your Organisation's UID
+								input#input-company-uid(type='text' name='' minlength=8 maxlength=8 required=true)
+								error.error
+							.form-item
+								label(for='input-role') Your role in this organisation
+								input#input-role(type='text' name='' required=true)
+								error.error
+							.form-item.multiple-x
+								//- .item
+								//- 	#check.check
+								//- 		.checkmark
+								//- 			input#remUser.checkbox(type='checkbox' name='')
+								//- 			span.material-icons-outlined done
+								//- 	label(for='remUser') Remember Me
+								.item
+									a.link Forgot Your Password?
+							button.btn.primary--active.block.form-item.bold(type='submit')
+								| Signup
+							.form-item.multiple-y
+								.item
+									.text.bold
+										a Don't have an Account?
+										a#login-link.link  login
+								.item
+									.text.bold
+										a Company not Registered yet?
+										a#register-company-link.link  Register now
+				#company-form.form-container
+					.content
+						.heading-form Register your Company
+						form.form-user(action='')
+							.form-item
+								label(for='input-country-name') Name of Company
+								input#input-company-name(type='text' name='' required=true)
+								error.error
+							.form-item
+								label(for='input-country') Country
+								input#input-country(type='text' name='' required=true)
+								error.error
+							button.btn.primary--active.block.form-item.bold(type='submit')
+								| Next
+				#password-form.form-container
+					.content
+						.heading-form Welcome! Create your password
+						form.form-user(action='')
+							.form-item
+								label(f/or='input-password') Password
+								input#input-password(type='password' name='' required=true)
+								error.error
+							.form-item
+								label(for='input-password-confirm') Confirm Password
+								input#input-password-confirm(type='text' name='' required=true)
+								error.error
+							button.btn.primary--active.block.form-item.bold(type='submit')
+								| Submit
+				#admin-form.form-container
+					.content
+						.heading-form Create your Administrator
+						form.form-user(action='')
+							.form-item
+								label(for='input-admin-name') Name of Administrator
+								input#input-admin-name(type='text' name='' required=true)
+								error.error
+							.form-item
+								label(for='input-admin-email') Email of Administrator
+								input#input-admin-email(type='email' name='' required=true)
+								error.error
+							.form-item
+								label(for='input-admin-role') Role of Administrator in Company
+								input#input-admin-role(type='text' name='')
+								error.error
+							button.btn.primary--active.block.form-item.bold(type='submit')
+								| Next
+
+	
+
+
+		// Footer ->>
+		include _footer
+		
+		script(src='/script/bundle.js' data-isLoggedIn= isLoggedIn)

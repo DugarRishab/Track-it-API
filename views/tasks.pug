@@ -1,0 +1,55 @@
+extends base 
+include _menu
+
+block content
+	.body-contents.tasks
+		+menu(user)
+		.main
+			header
+				.title.bold My Tasks
+				.tabs
+					.item#assignedToMe.active Assigned to Me
+					.item#assignedByMe Assigned by Me
+				.btn.primary--active New 
+					span.material-icons add
+			.task-group
+				header
+					.title
+						.sub-name 
+						.name
+				.group-contents
+					
+					.task-item
+					.task-item 
+					.task-item 
+					.task-item
+					.task-item
+					.task-item 
+			.task-group
+				header
+					.title
+						.sub-name 
+						.name
+				.group-contents
+					
+					.task-item
+					.task-item 
+					.task-item 
+					.task-item
+					.task-item
+					.task-item 
+			.task-group
+				header
+					.title
+						.sub-name 
+						.name
+				.group-contents
+					
+					.task-item
+					.task-item 
+					.task-item 
+					.task-item
+					.task-item
+					.task-item 
+		include _taskForm
+					
