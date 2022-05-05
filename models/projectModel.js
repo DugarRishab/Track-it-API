@@ -14,25 +14,13 @@ const projectSchema = new mongoose.Schema({
 	},
 	description: {
 		type: String,
+		trim: true,
 		maxLength: [250, 'Description must not have more than 250 charachters'],
 	},
-	companyId: {
-		type: String,
-		required: [true, 'A project must belong to a company']
-	},
-	manager: {
+	admin: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
-		required: [true, 'A project must have a manager']
-	},
-	
-	startTime: {
-		type: Date,
-		default: Date.now()
-	},
-	endTime: {
-		type: Date,
-		required: [true, 'A project must have a endTime']
+		required: [true, 'A project must have a admin']
 	},
 	active: {
 		type: Boolean,
@@ -40,9 +28,8 @@ const projectSchema = new mongoose.Schema({
 	},
 	projectId: {
 		type: String,
-		//required: [true, 'Every Project must have a UID']
 	},
-	members: {
+	users: {
 		type: [mongoose.Schema.Types.ObjectId],
 		ref: 'User'
 	}

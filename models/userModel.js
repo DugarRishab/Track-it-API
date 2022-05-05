@@ -18,6 +18,11 @@ const userSchema = new mongoose.Schema({
 		validate: [validator.isEmail, 'Invalid Email'],
 		lowercase: true
 	},
+	status: {
+		type: String,
+		trim: true,
+		default: "Have a nice day👋"
+	},
 	password: {
 		type: String,
 		required: [true, 'Every user must have a password'],
@@ -40,7 +45,7 @@ const userSchema = new mongoose.Schema({
 	otpExpiresBy: Date,
 	emailVerified: {
 		type: Boolean,
-		//default: false
+		default: true
 	},
 	active: {
 		type: Boolean,

@@ -47,8 +47,8 @@ app.use((req, res, next) => {	// <- Serves req time and cookies
 
 app.locals.moment = require('moment');	// 3rd party library to format date in pug
 
-app.set('view engine', 'pug');
-app.set('views', path.join( __dirname, 'views'));		  
+// app.set('view engine', 'pug');
+// app.set('views', path.join( __dirname, 'views'));		  
 
 app.use(express.static(path.join(__dirname, 'public'))); 
 
@@ -67,15 +67,9 @@ app.use(xss());   		  // <- Data Sanitization against xss
 app.use(compression());
 
 app.use('/api/v2/users', userRouter);
-app.use('/api/v2/companies', companyRouter);
 app.use('/api/v2/projects', projectRouter);
 app.use('/api/v2/teams', teamRouter);
 app.use('/api/v2/tasks', taskRouter);
-
-app.use((req, res, next) => {
-	res.setHeader("Content-Type", "text/html");
-	next();
-});
 
 app.all('*', (req, res, next) => {     // <- Middleware to handle Non-existing Routes
 	next(new AppError(`Can't find ${req.originalUrl} on the server`, 404));

@@ -1,21 +1,21 @@
 const mongoose = require('mongoose');
-const log = require('./../utils/colorCli');
 //const slugify = require('slugify');
 
 const taskSchema = new mongoose.Schema({
 	title: {
 		type: String,
-		required: [true, 'task must have a name']
+		required: [true, 'Please provide the title of the Task'],
+		trim: true,
 	},
 	assignedBy: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
-		required: [true, 'task must be assignedBy someone']
+		required: [true, 'Task must be assigned by someone']
 	},
 	assignedTo: {
 		type: [mongoose.Schema.Types.ObjectId],
 		ref: 'User',
-		required: [true, 'task must be assignedTo someone'],
+		required: [true, 'Task must be assigned to someone'],
 		validate: {
 			validator: function (val) {
 				return (val.length !== 0);
@@ -29,9 +29,9 @@ const taskSchema = new mongoose.Schema({
 	},
 	endDate: {
 		type: Date,
-		required: [ true, 'task must have a end date']
+		required: [ true, 'Please provide a end date for a Task']
 	},
-	assignedOn: {
+	dateCreated: {
 		type: Date,
 		default: Date.now()
 	},
@@ -44,14 +44,38 @@ const taskSchema = new mongoose.Schema({
 		default: false
 	},
 	steps: [String],
-	description: String,
-	files: [String],
-	completed: {
-		type: Boolean,
-		default: false
+	description: {
+		type: String,
+		trim: true,
 	},
-	projectId: String,
-	companyId: String,
+	files: [String],
+	status: {
+		type: String,
+		default: "due",
+		enum: ['due', 'done', 'in-progress']
+	},
+	progress: {
+		type: Number,
+		default: 0
+	},
+	tags: {
+		type: [String],
+		required: [true, "Task must have atleast 1 tag"],
+		validate: {
+			validator: function (val) {
+				return (val.length !== 0);
+			},
+			message: 'Task must have atleast 1 tag'
+		}
+	},
+	project: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Project'
+	},
+	team: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Team'
+	},
 	taskId: String
 }, {
 	toJSON: { virtuals: true },

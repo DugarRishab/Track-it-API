@@ -7,28 +7,25 @@ const mongoose = require('mongoose');
 const teamSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		required: [true, 'Every team must have a name']
+		required: [true, 'Every team must have a name'],
+		trim: true,
 	},
-	description: String,
-	leader: {
+	description: {
+		type: String,
+		trim: true,
+	},
+	admin: {
 		type: mongoose.Schema.Types.ObjectId,
-		required: [true, 'every team must have a leader'],
+		required: [true, 'Every team must have a admin'],
 		ref: 'User'
 	},
-	createdOn: {
+	dateCreated: {
 		type: Date,
 		default: Date.now()
 	},
-	members: {
+	users: {
 		type: [mongoose.Schema.Types.ObjectId],
 		ref: 'User'
-	},
-	projectId: {
-		type: String,
-	},
-	companyId: {
-		type: String,
-		required: [true, 'every team must belong to a company']
 	},
 	image: {
 		type: String,
