@@ -4,8 +4,6 @@ const authController = require('./../controllers/authController');
 
 const Router = express.Router();
 
-Router.route('/admin/:pass')
-
 Router.route('/')
 	.post(authController.protect, taskController.createTask)
 	.get(authController.protect, taskController.getCompanyTasks);
