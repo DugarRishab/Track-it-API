@@ -35,22 +35,6 @@ const projectSchema = new mongoose.Schema({
 	}
 });
 
-projectSchema.virtual('duration').get(function () {
-	return (this.endTime - this.startTime);
-});
-
-// projectSchema.virtual('members', {	// <- This is virtual populate
-// 	ref: 'User',
-// 	foreignField: 'tour',
-// 	localField: '_id'
-// });
-projectSchema.pre('save', function (next) {
-
-	if (!this.projectId) {
-		this.projectId = `P-${uid(6)}`;
-		next();
-	 }
-})
 
 const Project = mongoose.model("Project", projectSchema);
 

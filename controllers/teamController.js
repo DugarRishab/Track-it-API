@@ -7,42 +7,26 @@ const log = require('./../utils/colorCli');
 const uid = require('./../utils/generateUID');
 
 exports.createTeam = catchAsync(async (req, res, next) => {
-	if (req.body.companyId) {
-		if (req.body.companyId !== req.user.companyId) {
-			return next(new AppError('You cannot create a team in another company', 400));
-		}
-	}
-	else {
-		req.body.companyId = req.user.companyId;
-	}
-	if (req.body.projectId) {
-		const project = await Project.findOne({ projectId: req.body.projectId });
-		if (project.companyId !== req.body.companyId) {
-			return next(new AppError('You cannot create a team in project of another company', 400));
-		}
-	}
-	if (req.body.members) {
-		req.body.members.forEach(async (id) => {
+	
+	const { user } = req;
+	const members = req.body.members || [];
+	if (members.length === 0) {
+		members.forEach(async (id) => {
 			const member = await User.findById(id);
 			if (!member) {
 				return next(new AppError(`the user with id - ${id} doesnot exists`, 404));
 			}
-			if (member.companyId !== req.body.companyId) {
-				return next(new AppError('You cannot include a member of another company in your team'));
-			}
-			if (req.body.projectId && member.projects.includes(req.body.projectId)) {
-				return next(new AppError('You cannot include a member of another project in your team, else create your team outside of any project'));
-			}
 		})
 	}
+	members.push(user.id);
+
 	const team = await Team.create({
 		name: req.body.name,
 		description: req.body.description,
-		leader: req.body.leader,
-		companyId: req.body.companyId,
-		projectId: req.body.projectId,
+		project: req.body.project,
 		teamId: `T-${uid(8)}`,
-		members: req.body.members
+		members,
+		admin: user.id
 	});
 
 	res.status(201).json({
@@ -52,18 +36,36 @@ exports.createTeam = catchAsync(async (req, res, next) => {
 		}
 	});
 });
-exports.getCompanyTeams = catchAsync(async (req, res, next) => {
+exports.getAllTeams = catchAsync(async (req, res, next) => {
 
-	const teams = await Team.find({ companyId: req.user.companyId }).populate({
+	const teams = await Team.find().populate({
 		path: 'members',
-		select: 'name role adminStatus image userId'
+		select: 'name status adminStatus image userId'
 	});
 
 	res.status(200).json({
 		message: 'success',
-		number: teams.length,
 		data: {
+			number: teams.length,
 			teams
 		}
 	});
+});
+exports.getUserTeams = catchAsync(async (req, res, next) => {
+	const { user } = req;
+	const teams = await Team.find({members: user.id}).populate({
+		path: 'members',
+		select: 'name status adminStatus image userId',
+	});
+
+	res.status(200).json({
+		message: 'success',
+		data: {
+			number: teams.length,
+			teams,
+		},
+	});
+});
+exports.addUser = catchAsync(async (req, res, next) => {
+	
 });

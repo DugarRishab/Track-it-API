@@ -20,12 +20,13 @@ const signToken = (id) => {
 }
 const createSendToken = (user, statusCode, res) => {
 	const token = signToken(user.id);
-
+	console.log(process.env.JWT_COOKIE_EXPIRES_IN);
 	const cookieOptions = {
 		expires: new Date(Date.now() + +process.env.JWT_COOKIE_EXPIRES_IN),
 		httpOnly: true,
 		path: '/',
 		sameSite: 'none',
+		secure: true
 	};
 	if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
@@ -33,7 +34,7 @@ const createSendToken = (user, statusCode, res) => {
 
 	res.cookie('jwt', token, cookieOptions);
 
-	console.log(res);
+	//console.log(res);
 
 	res.status(statusCode).json({
 		message: 'success',

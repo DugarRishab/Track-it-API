@@ -6,9 +6,7 @@ const Router = express.Router();
 
 Router
 	.route('/')
-	.get(authController.protect, teamController.getCompanyTeams)
-	.post(authController.protect,
-		authController.restrictTo('admin', 'administrator'),
-		teamController.createTeam);
+	.get(authController.protect, teamController.getUserTeams)
+	.post(authController.protect, teamController.createTeam);
 
 module.exports = Router;

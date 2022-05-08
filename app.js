@@ -9,7 +9,6 @@ const compression = require('compression');
 const rateLimit = require('express-rate-limit');
  
 const userRouter = require('./routes/userRoutes');
-const companyRouter = require('./routes/companyRoutes');
 const projectRouter = require('./routes/projectRoutes');
 const teamRouter = require('./routes/teamRoutes');
 const taskRouter = require('./routes/taskRoutes');

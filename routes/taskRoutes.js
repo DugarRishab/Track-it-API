@@ -6,7 +6,7 @@ const Router = express.Router();
 
 Router.route('/')
 	.post(authController.protect, taskController.createTask)
-	.get(authController.protect, taskController.getCompanyTasks);
+	.get(authController.protect, taskController.getUserTasks);
 
 Router.route('/:taskId')
 	.patch(authController.protect, taskController.updateTask)

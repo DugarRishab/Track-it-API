@@ -23,13 +23,17 @@ const teamSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now()
 	},
-	users: {
+	members: {
 		type: [mongoose.Schema.Types.ObjectId],
 		ref: 'User'
 	},
 	image: {
 		type: String,
 		default: 'teamDefault.png'
+	},
+	project: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Project'
 	},
 	teamId: String
 }, {

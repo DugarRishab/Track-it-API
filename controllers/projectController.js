@@ -8,46 +8,23 @@ const uid = require('./../utils/generateUID');
 exports.createProject = catchAsync(async (req, res, next) => {
 
 	const { user } = req;
+	console.log("working till user");
 
-	if (!req.body.companyId) {
-		req.body.companyId = user.companyId;
-	}
-	if (user.companyId !== req.body.companyId) {
-		return next(new AppError('You cannot create project in another company', 401));
-	}
 	const project = await Project.create({
 		name: req.body.name,
 		description: req.body.description,
-		manager: req.body.manager,
-		startTime: req.body.startTime,
-		endTime: req.body.endTime,
-		active: req.body.active,
-		companyId: req.body.companyId,
+		admin: user.id,
 		projectId: `P-${uid(6)}`,
-		members: req.body.members
+		users: req.body.users
 	});
 
-	const {members} = req.body;
-	members.forEach(catchAsync(async (id) => {
-		//console.log(log.debug('id is'), log.debug(id));
-		const member = await User.findById(id);
-		//console.log(log.debug(member.projects));
-		if (!member) {
-			return next(new AppError(`the user ${id} doesnot exists`, 404));
-		}
-		member.projects.push(project.id);
-
-		await User.findByIdAndUpdate(id, member, {
-			runValidators: true
-		});
-	}));
+	console.log('working till create');
 
 	res.status(201).json({
 		message: 'success',
 		data: {
 			project
 		}
-	})
-	
+	});
 	
 });

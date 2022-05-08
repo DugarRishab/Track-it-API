@@ -8,57 +8,47 @@ const Team = require('./../models/teamModel');
 const log = require('./../utils/colorCli');
 const uid = require('./../utils/generateUID');
 
-exports.createTask = catchAsync(async (req, res, next) => {		// TODO: Update: the controller to accept a Team, but also save the names of user in the team
+exports.createTask = catchAsync(async (req, res, next) => {		
 																
-	const assignedBy = req.user;								// TODO: Update: Also save the taskId in Users
-	//console.log(log.debug(assignedBy));
+	const assignedBy = req.user;	
+	const { assignedTo } = req.body;
 
-
-	req.body.assignedTo.forEach(catchAsync(async (id) => {
-		const user = await User.find({
-			id: id,
-			companyId: assignedBy.companyId
-		});
-		const team = await Team.find({
-			id: id,
-			companyId: assignedBy.companyId
-		})
-		if (!user && !team) {
-			return next(new AppError(`the user/team with Id: ${id} , doesnot exists in your company`, 400));
+	assignedTo.forEach(catchAsync(async (id) => {
+		const user = await User.findById(id);
+		if (!user) {
+			
+			return next(new AppError(`the user with Id: ${id} , doesnot exists.`, 400));
 		}
 	}));
 
-	if (req.body.companyId && req.body.companyId !== assignedBy.companyId) {
-		return next(new AppError('you cannot create a task in another company', 400));
-	}
-	if (!req.body.companyId) {
-		//console.log(log.debug('no id found'));
-		req.body.companyId  =  assignedBy.companyId
-	}
-	//console.log(log.debug(req.body.companyId))
+	if (req.body.team) {
+		const team = await Team.findById(req.body.team);
+		if (!team) {
+			return next(
+				new AppError(`the team with Id: ${req.body.team} , doesnot exists.`, 400)
+			);
+		}
 
-	
-	//console.log("type of object found: ", typeof req.body.assignedTo, Array.isArray(req.body.assignedTo), req.body.assignedTo);
-
-	//const { assignedTo } = req.body;
+		team.members.forEach(user => {
+			assignedTo.push(user);
+		})
+	}
 
 	const task = await Task.create({
 		title: req.body.title,
-		assignedTo: req.body.assignedTo,
+		assignedTo,
 		assignedBy: `${assignedBy.id}`,
 		startDate: req.body.startDate,
 		endDate: req.body.endDate,
 		reminder: req.body.reminder,
 		myDay: req.body.myDay,
 		description: req.body.description,
-		files: req.body.files,
 		steps: req.body.steps,
-		completed: req.body.completed,
 		assignedOn: req.body.assignedOn,
-		importance: req.body.importance,
-		projectId: req.body.projectId,
-		companyId: req.body.companyId,
-		taskId: `TSK-${uid(12)}`
+		project: req.body.project,
+		team: req.body.team,
+		taskId: `TSK-${uid(12)}`,
+		tags: req.body.tags
 	});
 
 	res.status(200).json({
@@ -69,130 +59,39 @@ exports.createTask = catchAsync(async (req, res, next) => {		// TODO: Update: th
 	});  
 
 });
-exports.getCompanyTasks = catchAsync(async (req, res, next) => {
+exports.getAllTasks = catchAsync(async (req, res, next) => {
 	const { user } = res.locals;
-	//console.log(log.success("Current user: ", user.userId));
 
-	const tasks = await Task.find({ companyId: user.companyId });
+	const tasks = await Task.find();
 
 	res.status(200).json({
 		message: 'success',
 		data: [
 			tasks
 		]
-	});  
+	});
 });
 exports.getUserTasks = catchAsync(async (req, res, next) => {
 	
 	const { user } = res.locals;
 	//console.log(log.success("Current user: ", user.userId, ": ", user.name));
-	const tasks = await Task.find({ companyId: user.companyId })
+	const assignedToUserTasks = await Task.find({ assignedTo: user.id })
 		.populate({
-			path: 'assignedBy assignedTo'
+			path: 'assignedBy assignedTo team project'
 		});
-	//console.log("Tasks: ", tasks);
-	const users = await User.find({ companyId: user.companyId });
-	//console.log(user);
-	//const userTasks = [];
-	// tasks.forEach(task => {
-	// 	console.log((task.assignedBy),"\n");
-	// });
-
-	let teams = await Team.find({ companyId: user.companyId });
-	teams = teams.filter(team => (team.members.includes(user.id)));
-
-	//console.log(log.debug(typeof users));
-	const projects = await Project.find({ companyId: user.companyId });
-	const userProjects = [];
-	projects.forEach(project => {
-		if(user.projects.includes(project.id))
-			userProjects.push( project);
-	});
-
-	const assignedToUserTasks = [];
-	// assignedToUserTasks = (tasks.filter(task =>
-	// {	
-	// 	// console.log(log.debug("!!!Added!!!"));
-	// 	const returnType = task.assignedTo.filter(assignee => {
-	// 		if (assignee.userId && assignee.userId === user.userId)
-	// 			return true;
-	// 		teams.forEach(team => {
-	// 			if (assignee.teamId === team.id)
-	// 				return true;
-	// 		});
-	// 		return false;
-	// 	});
-	// 	// console.log(returnType);
-
-	// 	//return false;
-	// }));
-	tasks.forEach(task => {
-		task.assignedTo.forEach(assignee => {
-			if (assignee.userId && assignee.userId === user.userId) {
-				assignedToUserTasks.push(task);
-				return;
-			}
-			teams.forEach(team => {
-				if (assignee.teamId === team.id) {
-					assignedToUserTasks.push(task);
-				}
-			});
+	
+	const assignedByUserTasks = await Task.find({ assignedBy: user.id })
+		.populate({
+			path: 'assignedBy assignedTo team project'
 		});
-	});
-	console.log(log.debug("assigned to user taks length: ", assignedToUserTasks.length, "type: ", typeof assignedToUserTasks));
-	// teams.forEach(team => {
-	// 	assignedToUserTasks.push(tasks.filter(					// TODO: Check for duplicate Values
-	// 		task => (task.assignedTo.includes(team.teamId))
-	// 	));
-	// });
-
-	//assignedToUserTasks = new Set(assignedToUserTasks);
-	const assignedByUserTasks = tasks.filter(task => (task.assignedBy.userId === user.userId));
-	//console.log(log.debug("assignedBy user tasks:", typeof assignedByUserTasks));
 	
-	// assignedToUserTasks.forEach(task => {
-	// 	task.assignedByUser = users.find(u => (u.userId === task.assignedBy));
-	// });
-
-	// assignedToUserTasks.forEach(task => {
-	// 	task.assignedToUser = [];
-	// 	const newTask = {
-	// 		assignedToUser: []
-	// 	}
-	// 	//const abc = task.assignedTo;
-	// 	//console.log(log.debug("type of assigned TO: ", Array.isArray(abc), abc[0]));
-		
-	// 	//task.assignedTo = JSON.parse(`{${task.assignedTo}}`);
-	// 	//console.log("New type of assigned TO: ", typeof task.assignedTo, task.assignedTo);
-
-
-	// 	if (Array.isArray(task.assignedTo)) {
-	// 		task.assignedTo.forEach(a => {
-	// 			task.assignedToUser.push(users.find(u => (u.userId === a)));
-	// 			console.log("Assigning user");
-	// 		});
-	// 	}
-	// 	//task = {}
-		
-	// 	//console.log(task);
-
-		
-	// });
-	//console.log("task being sent: ", assignedToUserTasks);
-
-	
-	//const currentTaskList = assignedToUserTasks;
 	res.status(200).json({
 		message: 'success',
 		data: {
 			assignedByUserTasks,
 			assignedToUserTasks,
-			projects: userProjects
 		}
-	});
-
-	//console.log(log.success("res sent"));
-		
+	});	
 })
 exports.markComplete = catchAsync(async (req, res, next) => {
 	
