@@ -21,14 +21,15 @@ const app = express();
 // MIDLEWARES ->>
 app.enable('trust proxy');
 
-const originURL = !process.env.REMOTE ? "https://trackk-it.netlify.app" : "http://localhost:3000";
-console.log(process.env.REMOTE, originURL);
-app.use(cors({ credentials: true, origin: originURL }));
-app.options( originURL , cors());
+
+console.log("REMOTE: ", process.env.REMOTE);
+
+app.use(cors({ credentials: true, origin: process.env.REMOTE }));
+app.options(process.env.REMOTE, cors());
 
 console.log(log.extra(`ENV = ${process.env.NODE_ENV}`));
 app.use(morgan('dev')); // <- 3rd party Middleware Function
-	
+
 const limiter = rateLimit({
 	max: 500, // max number of times per windowMS
 	windowMs: 60 * 60 * 1000,
@@ -36,24 +37,25 @@ const limiter = rateLimit({
         '!!! Too many requests from this IP, Please try again in 1 hour !!!',
 });
 
-app.use("/api/v2", limiter);
+app.use('/api/v2', limiter);
 
-app.use((req, res, next) => {	// <- Serves req time and cookies
+app.use((req, res, next) => {
+	// <- Serves req time and cookies
 	req.requestTime = new Date().toISOString();
 	console.log(req.requestTime);
 	if (req.cookies) console.log(req.cookies);
 	next();
 });
 
-app.locals.moment = require('moment');	// 3rd party library to format date in pug
+app.locals.moment = require('moment'); // 3rd party library to format date in pug
 
 // app.set('view engine', 'pug');
-// app.set('views', path.join( __dirname, 'views'));		  
+// app.set('views', path.join( __dirname, 'views'));
 
-app.use(express.static(path.join(__dirname, 'public'))); 
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-	res.setHeader("Content-Type", "application/json");
+	res.setHeader('Content-Type', 'application/json');
 	next();
 });
 
@@ -62,7 +64,7 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' })); // <- Parses URL
 app.use(cookieParser()); // <- parses cookie data
 
 app.use(mongoSanitize()); // <- Data Sanitization aganist NoSQL query Injection.
-app.use(xss());   		  // <- Data Sanitization against xss
+app.use(xss()); // <- Data Sanitization against xss
 
 app.use(compression());
 
@@ -71,7 +73,8 @@ app.use('/api/v2/projects', projectRouter);
 app.use('/api/v2/teams', teamRouter);
 app.use('/api/v2/tasks', taskRouter);
 
-app.all('*', (req, res, next) => {     // <- Middleware to handle Non-existing Routes
+app.all('*', (req, res, next) => {
+	// <- Middleware to handle Non-existing Routes
 	next(new AppError(`Can't find ${req.originalUrl} on the server`, 404));
 });
 
