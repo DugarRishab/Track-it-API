@@ -21,9 +21,10 @@ const app = express();
 // MIDLEWARES ->>
 app.enable('trust proxy');
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
-// app.use(cors());
-app.options('http://localhost:3000', cors());
+const originURL = !process.env.REMOTE ? "https://trackk-it.netlify.app" : "http://localhost:3000";
+console.log(process.env.REMOTE, originURL);
+app.use(cors({ credentials: true, origin: originURL }));
+app.options( originURL , cors());
 
 console.log(log.extra(`ENV = ${process.env.NODE_ENV}`));
 app.use(morgan('dev')); // <- 3rd party Middleware Function
