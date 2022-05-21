@@ -4,30 +4,24 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
-const Team = require('./../models/teamModel');
-const uid = require('./../utils/generateUID');
-const log = require('./../utils/colorCli');
-
 const userSchema = new mongoose.Schema({
 	name: {
 		type: String,
-		required: [true, 'User must have a name'],
+		required: [true, 'User must have a name. Please provide name'],
 		trim: true,
 		minLength: [4, 'Name must have atleat - 4 characters']
 	},
-	role: {
-		type: String,
-		required: [true, 'Every User must have a r']
-	},
-	phone: {
-		type: Number,
-	},
 	email: {
 		type: String,
-		required: [true, 'Every User must have a unique email'],
+		required: [true, 'Every User must have a unique Email. Please provide Email'],
 		unique: [true, 'Email already in use'],
 		validate: [validator.isEmail, 'Invalid Email'],
 		lowercase: true
+	},
+	status: {
+		type: String,
+		trim: true,
+		default: "Have a nice day👋"
 	},
 	password: {
 		type: String,
@@ -51,7 +45,7 @@ const userSchema = new mongoose.Schema({
 	otpExpiresBy: Date,
 	emailVerified: {
 		type: Boolean,
-		//default: false
+		default: true
 	},
 	active: {
 		type: Boolean,
@@ -61,25 +55,11 @@ const userSchema = new mongoose.Schema({
 	adminStatus: {
 		type: String,
 		default: 'user',
-		enum: ['user', 'admin', 'administrator', 'director']
-	},
-	companyId: {
-		type: String,
-		required: [true, 'Please provide a company id'],
-		validate: {
-			validator: function (val) {
-				return val.startsWith('C-');
-			},
-			message: 'Invalid UID: Organisation UID must start with C-'
-		}
+		enum: ['user', 'admin']
 	},
 	image: {
 		type: String,
 		default: 'default.jpg'
-	},
-	country: {
-		type: String,
-		default: 'india'
 	},
 	userId: {
 		type: String,
@@ -88,36 +68,11 @@ const userSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now()
 	},
-	projects: {
-		type: [mongoose.Schema.Types.ObjectId],
-		ref: 'Project'
-	},
-	teams: {
-		type: [mongoose.Schema.Types.ObjectId],
-		ref: 'Team'
-	}
 }, {
 	toJSON: { virtuals: true },
 	toObject: { virtuals: true }
 });
 // MONGOOSE MIDDLEWARES ->>
-
-
-
-// // eslint-disable-next-line prefer-arrow-callback
-// userSchema.pre(/^find/, async function (next) {
-	
-// 	// userSchema.virtual('teams', {	// <- This is virtual populate
-// 	// 	ref: 'Team',
-// 	// 	foreignField: 'members',
-// 	// 	localField: '_id'
-// 	// });
-	
-
-	
-
-// 	next();
-// })
 
 // Password encryption ->
 userSchema.pre('save', async function (next){	
@@ -138,7 +93,6 @@ userSchema.pre('save', function (next) {
 
 userSchema.pre(/^find/, async function (next) { 
 	this.find({ active: { $ne: false } });
-
 	next();
 });
 

@@ -10,7 +10,7 @@ const handleCastErrorDB = err => {
 const handleDuplicateErrorDB = err => {
 	const value = err.errmsg.match(/"([^"]*)"/)[0];
 	//console.log(value);
-	const message = `Duplicate key value: ${value}, Please use anoter value`;
+	const message = `Duplicate key value: ${value}, Please use another value`;
 	return new AppError(message, 400);
 }
 
@@ -120,7 +120,7 @@ module.exports = (err, req, res, next) => {  // <- Global Error Handling Middlew
 		error.message = err.message;
 		// NOTE ->
 		// To mark any error as operational, we need to pass it through AppError class
-
+		
 		if (error.name === 'CastError') error = handleCastErrorDB(error);
 		if (error.code === 11000) error = handleDuplicateErrorDB(error);
 		if (error.name === 'ValidationError') error = handleValidationError(error);
