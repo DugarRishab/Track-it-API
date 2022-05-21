@@ -13,13 +13,31 @@ exports.createTask = catchAsync(async (req, res, next) => {
 	const assignedBy = req.user;	
 	const { assignedTo } = req.body;
 
-	assignedTo.forEach(catchAsync(async (id) => {
-		const user = await User.findById(id);
-		if (!user) {
+	assignedTo.forEach(async (id) => {
+		
+		try {
+			console.log('next', next);
+			const user = await User.findById(id);
+			if (!user) {
+				return next(
+					new AppError(
+						`The user with Id: ${id} , doesnot exists.`,
+						400
+					)
+				);
+			}
 			
-			return next(new AppError(`the user with Id: ${id} , doesnot exists.`, 400));
 		}
-	}));
+		catch (err) {	
+		 	next(
+				err
+			);
+		}
+		
+		// if (!user) {
+		// 	return next(new AppError(`the user with Id: ${id} , doesnot exists.`, 400));
+		// }
+	});
 
 	if (req.body.team) {
 		const team = await Team.findById(req.body.team);
@@ -48,7 +66,8 @@ exports.createTask = catchAsync(async (req, res, next) => {
 		project: req.body.project,
 		team: req.body.team,
 		taskId: `TSK-${uid(12)}`,
-		tags: req.body.tags
+		tags: req.body.tags,
+		subTasks: req.body.subTasks,
 	});
 
 	res.status(200).json({

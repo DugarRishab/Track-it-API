@@ -52,7 +52,6 @@ const taskSchema = new mongoose.Schema(
 				},
 				description: {
 					type: String,
-					required: true,
 				},
 				status: {
 					type: String,
@@ -70,10 +69,6 @@ const taskSchema = new mongoose.Schema(
 			type: String,
 			default: 'due',
 			enum: ['due', 'done', 'in-progress'],
-		},
-		progress: {
-			type: Number,
-			default: 0,
 		},
 		tags: {
 			type: [String],
@@ -109,6 +104,10 @@ taskSchema.virtual('durationInDays').get(function () {
 
 	const durationInDays = Math.floor(this.durationInTime / (1000 * 3600 * 24));
 	return durationInDays;
+});
+taskSchema.virtual('progress').get(function () {
+	const progress = Math.floor(this.subTasks.filter(task => task.status === 'done').length / this.subTasks.length * 100) || 0;
+	return progress;
 });
 
 const Task = mongoose.model('Task', taskSchema);
