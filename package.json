@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "debug": "ndb server.js",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "start:dev": "nodemon server.js",
     "watch:js": "parcel watch ./public/script/index.js --out-dir ./public/script --out-file bundle.js",
     "build:js": "parcel build ./public/script/index.js --out-dir ./public/script --out-file bundle.js"
@@ -56,6 +56,7 @@
     "pug": "^3.0.2",
     "sharp": "^0.29.3",
     "slugify": "^1.6.1",
+    "socket.io": "^4.5.0",
     "util": "^0.12.4",
     "validator": "^13.7.0",
     "xss-clean": "^0.1.1"
