@@ -8,7 +8,6 @@ const uid = require('./../utils/generateUID');
 exports.createProject = catchAsync(async (req, res, next) => {
 
 	const { user } = req;
-	console.log("working till user");
 
 	const project = await Project.create({
 		name: req.body.name,
@@ -18,8 +17,6 @@ exports.createProject = catchAsync(async (req, res, next) => {
 		users: req.body.users
 	});
 
-	console.log('working till create');
-
 	res.status(201).json({
 		message: 'success',
 		data: {
@@ -27,4 +24,16 @@ exports.createProject = catchAsync(async (req, res, next) => {
 		}
 	});
 	
+});
+exports.getUserProjects = catchAsync(async (req, res, next) => {
+	const { user } = req;
+
+	const projects = await Project.find({ $or: [{ users: user }, { admin: user }] });
+
+	res.status(200).json({
+		message: 'success',
+		data: {
+			projects
+		}
+	});
 });
