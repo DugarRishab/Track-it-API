@@ -9,32 +9,16 @@ const uid = require('./../utils/generateUID');
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
 
-	let query;
-	const { companyId } = req.user;
-	
-	if(req.user.adminStatus !== 'director') {
-		query = { companyId };
-	}
+	const { user } = req;
 
-	const users = await User.find(query);
-
-	const teams = await Team.find({companyId});
-	console.log(log.debug(teams));
-
-	users.forEach(user => {
-		teams.forEach(team => {
-			if (team.members.includes(user.id)) {
-				user.teams.push(team.id);
-			}
-		});
-	});
+	const users = await User.find();
 
 	res.status(200).json({
 		message: 'success',
-		items: users.length,
 		data: {
-			users
-		}
+			items: users.length,
+			users,
+		},
 	});
 });
 exports.changeAdminStatus = catchAsync(async (req, res, next) => {
