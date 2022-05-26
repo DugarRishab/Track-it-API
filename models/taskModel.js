@@ -89,6 +89,9 @@ const taskSchema = new mongoose.Schema(
 			ref: 'Team',
 		},
 		taskId: String,
+		images: {
+			type: [String],
+		}
 	},
 	{
 		toJSON: { virtuals: true },

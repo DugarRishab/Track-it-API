@@ -7,6 +7,8 @@ const Project = require('./../models/projectModel');
 const Team = require('./../models/teamModel');
 const log = require('./../utils/colorCli');
 const uid = require('./../utils/generateUID');
+const { cloudinary } = require('../utils/cloudinary');
+
 
 exports.createTask = catchAsync(async (req, res, next) => {		
 																
@@ -51,6 +53,11 @@ exports.createTask = catchAsync(async (req, res, next) => {
 			assignedTo.push(user);
 		})
 	}
+	console.log(req.body.image);
+	const uploadRes = await cloudinary.uploader.upload(req.body.image, {
+		upload_preset: "task_imgs"
+	});
+	console.log(uploadRes);
 
 	const task = await Task.create({
 		title: req.body.title,
@@ -68,6 +75,7 @@ exports.createTask = catchAsync(async (req, res, next) => {
 		taskId: `TSK-${uid(12)}`,
 		tags: req.body.tags,
 		subTasks: req.body.subTasks,
+		images: [uploadRes?.url]
 	});
 
 	res.status(200).json({
@@ -116,24 +124,31 @@ exports.markComplete = catchAsync(async (req, res, next) => {
 	
 	const { user } = req;
 	const { taskId } = req.params;
-
-	const task = await Task.findOne({ taskId });
+	console.log("taskId: " ,taskId);
+	const task = await Task.findById(taskId);
 
 	if (!task) {
 		return next(new AppError('This task doesnot exists', 404));
 	}
-	//console.log('assigned By:', user.id, " and ", task.assignedBy);
+	
 	if (!task.assignedTo.includes(user.id)) {
 		return next(new AppError('You donot have access to this task', 401));
 	}
 
 	let updatedTask;
-	if (!task.completed) {
-		updatedTask = await Task.findOneAndUpdate({ taskId }, { completed: true }, { new: true });
+	if (task.status !== "done") {
+		task.status = "done";
+		task.subTasks.forEach(subTask => { subTask.status = "done" });
+		console.log(task);
+		updatedTask = await Task.findByIdAndUpdate( taskId , task, { new: true });
 	}
 	else {
-		updatedTask = await Task.findOneAndUpdate({ taskId }, { completed: false }, { new: true });
+		task.status = "due";
+		task.subTasks.forEach(subTask => { subTask.status = "due" });
+		console.log(task);
+		updatedTask = await Task.findByIdAndUpdate( taskId , task, { new: true });
 	}
+	console.log(updatedTask.status);
 
 	res.status(200).json({
 		message: "success",

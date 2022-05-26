@@ -17,6 +17,7 @@
     "prefer-destructuring": ["warn", { "object": true, "array": false }],
     "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val" }],
     "import/no-useless-path-segments": ["error", { "noUselessIndex": true }],
-    "indent": ["error", "tab"]
+    "indent": ["warn", "tab"],
+    "import/new-line-after-import": ["warn" ]
   }
 }

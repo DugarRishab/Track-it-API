@@ -31,7 +31,7 @@ console.log(log.extra(`ENV = ${process.env.NODE_ENV}`));
 app.use(morgan('dev')); // <- 3rd party Middleware Function
 
 const limiter = rateLimit({
-	max: 500, // max number of times per windowMS
+	max: 1000, // max number of times per windowMS
 	windowMs: 60 * 60 * 1000,
 	message:
         '!!! Too many requests from this IP, Please try again in 1 hour !!!',
@@ -60,7 +60,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json({ limit: '10kb' })); // <- Parses Json data
-app.use(express.urlencoded({ extended: true, limit: '10kb' })); // <- Parses URLencoded data
+app.use(express.urlencoded({ extended: true, limit: '100kb' })); // <- Parses URLencoded data
 app.use(cookieParser()); // <- parses cookie data
 
 app.use(mongoSanitize()); // <- Data Sanitization aganist NoSQL query Injection.
