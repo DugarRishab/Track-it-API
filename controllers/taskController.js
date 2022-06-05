@@ -121,42 +121,63 @@ exports.getUserTasks = catchAsync(async (req, res, next) => {
 	});	
 })
 exports.markComplete = catchAsync(async (req, res, next) => {
-	
-	const { user } = req;
-	const { taskId } = req.params;
-	console.log("taskId: " ,taskId);
-	const task = await Task.findById(taskId);
+    const { user } = req;
+    const { taskId } = req.params;
+    console.log('taskId: ', taskId);
+    const task = await Task.findById(taskId);
 
-	if (!task) {
-		return next(new AppError('This task doesnot exists', 404));
-	}
-	
-	if (!task.assignedTo.includes(user.id)) {
-		return next(new AppError('You donot have access to this task', 401));
-	}
+    if (!task) {
+        return next(new AppError('This task doesnot exists', 404));
+    }
 
-	let updatedTask;
-	if (task.status !== "done") {
-		task.status = "done";
-		task.subTasks.forEach(subTask => { subTask.status = "done" });
-		console.log(task);
-		updatedTask = await Task.findByIdAndUpdate( taskId , task, { new: true });
-	}
-	else {
-		task.status = "due";
-		task.subTasks.forEach(subTask => { subTask.status = "due" });
-		console.log(task);
-		updatedTask = await Task.findByIdAndUpdate( taskId , task, { new: true });
-	}
-	console.log(updatedTask.status);
+    if (!task.assignedTo.includes(user.id)) {
+        return next(new AppError('You donot have access to this task', 401));
+    }
 
-	res.status(200).json({
-		message: "success",
-		data: {
-			task: updatedTask
-		}
-	});
-	
+    let updatedTask;
+    if (task.status !== 'done') {
+
+        task.status = 'done';
+        const subTasks = task.subTasks.map((subTask) => {
+			subTask.status = 'done';
+			return subTask;
+        });
+        // console.log(task);
+		updatedTask = await Task.findByIdAndUpdate(taskId, {
+			status: 'done',
+			subTasks
+		}, {
+            new: true,
+        }).populate({
+            path: 'assignedBy assignedTo team project',
+        });
+
+    } else {
+
+        task.status = 'due';
+        const subTasks = task.subTasks.map((subTask) => {
+			subTask.status = 'done';
+			return subTask;
+        });
+        // console.log(task);
+        updatedTask = await Task.findByIdAndUpdate(taskId, {
+			status: "due",
+			subTasks
+		}, {
+            new: true,
+        }).populate({
+            path: 'assignedBy assignedTo team project',
+		});
+		
+    }
+    console.log(updatedTask.status);
+	console.log(updatedTask);
+    res.status(200).json({
+        message: 'success',
+        data: {
+            task: updatedTask,
+        },
+    });
 });
 exports.deleteTask = catchAsync(async (req, res, next) => {
 	const { user } = req;
