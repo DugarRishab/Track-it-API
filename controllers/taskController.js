@@ -124,63 +124,63 @@ exports.getUserTasks = catchAsync(async (req, res, next) => {
 	});	
 })
 exports.markComplete = catchAsync(async (req, res, next) => {
-    const { user } = req;
-    const { taskId } = req.params;
-    console.log('taskId: ', taskId);
-    const task = await Task.findById(taskId);
+	const { user } = req;
+	const { taskId } = req.params;
+	console.log('taskId: ', taskId);
+	const task = await Task.findById(taskId);
 
-    if (!task) {
-        return next(new AppError('This task doesnot exists', 404));
-    }
+	if (!task) {
+		return next(new AppError('This task doesnot exists', 404));
+	}
 
-    if (!task.assignedTo.includes(user.id)) {
-        return next(new AppError('You donot have access to this task', 401));
-    }
+	if (!task.assignedTo.includes(user.id)) {
+		return next(new AppError('You donot have access to this task', 401));
+	}
 
-    let updatedTask;
-    if (task.status !== 'done') {
+	let updatedTask;
+	if (task.status !== 'done') {
 
-        task.status = 'done';
-        const subTasks = task.subTasks.map((subTask) => {
+		task.status = 'done';
+		const subTasks = task.subTasks.map((subTask) => {
 			subTask.status = 'done';
 			return subTask;
-        });
-        // console.log(task);
+		});
+		// console.log(task);
 		updatedTask = await Task.findByIdAndUpdate(taskId, {
 			status: 'done',
 			subTasks
 		}, {
-            new: true,
-        }).populate({
-            path: 'assignedBy assignedTo team project',
-        });
+			new: true,
+		}).populate({
+			path: 'assignedBy assignedTo team project',
+		});
 
-    } else {
+	} else {
 
-        task.status = 'due';
-        const subTasks = task.subTasks.map((subTask) => {
+		task.status = 'due';
+		const subTasks = task.subTasks.map((subTask) => {
 			subTask.status = 'done';
 			return subTask;
-        });
-        // console.log(task);
-        updatedTask = await Task.findByIdAndUpdate(taskId, {
+		});
+		// console.log(task);
+		updatedTask = await Task.findByIdAndUpdate(taskId, {
 			status: "due",
 			subTasks
 		}, {
-            new: true,
-        }).populate({
-            path: 'assignedBy assignedTo team project',
+			new: true,
+		}).populate({
+			path: 'assignedBy assignedTo team project',
 		});
 		
-    }
-    console.log(updatedTask.status);
+	}
+	console.log(updatedTask.status);
 	console.log(updatedTask);
-    res.status(200).json({
-        message: 'success',
-        data: {
-            task: updatedTask,
-        },
-    });
+	res.status(200).json({
+		message: 'success',
+		data: {
+			task: updatedTask,
+		},
+	});
 });
 exports.deleteTask = catchAsync(async (req, res, next) => {
 	const { user } = req;
@@ -227,7 +227,9 @@ exports.updateTask = catchAsync(async (req, res, next) => {
 
 	const updatedTask = await Task.findByIdAndUpdate(taskId, body, {
 		new: true,
-		runValidators: true
+		runValidators: true,
+	}).populate({
+		path: 'assignedBy assignedTo team project',
 	});
 
 	res.status(200).json({
