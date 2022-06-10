@@ -54,10 +54,13 @@ exports.createTask = catchAsync(async (req, res, next) => {
 		})
 	}
 	console.log(req.body.image);
-	const uploadRes = await cloudinary.uploader.upload(req.body.image, {
-		upload_preset: "task_imgs"
-	});
-	console.log(uploadRes);
+	if (req.body.image) {
+		const uploadRes = await cloudinary.uploader.upload(req.body.image, {
+			upload_preset: "task_imgs"
+		});
+		console.log(uploadRes);
+	}
+	
 
 	const task = await Task.create({
 		title: req.body.title,
@@ -75,7 +78,7 @@ exports.createTask = catchAsync(async (req, res, next) => {
 		taskId: `TSK-${uid(12)}`,
 		tags: req.body.tags,
 		subTasks: req.body.subTasks,
-		images: [uploadRes?.url]
+		// images: uploadRes ? [uploadRes?.url] : null
 	});
 
 	res.status(200).json({
@@ -208,7 +211,7 @@ exports.updateTask = catchAsync(async (req, res, next) => {
 
 	//console.log(body);
 
-	const task = await Task.findOne({ taskId });
+	const task = await Task.findById(taskId);
 
 	if (!task) {
 		return next(new AppError('This task doesnot exists', 404));
@@ -218,14 +221,11 @@ exports.updateTask = catchAsync(async (req, res, next) => {
 		return next(new AppError('You donot have access to this task', 401));
 	}
 	// eslint-disable-next-line no-prototype-builtins
-	if (body.hasOwnProperty('completed')) {
-		//console.log(body.completed);
-		if (!task.assignedTo.includes(user.id)) {
-			return next(new AppError('You cannot change this property', 401));
-		}
+	if (body.hasOwnProperty('status')) {
+		return next(new AppError('You cannot change this property', 401));
 	}
 
-	const updatedTask = await Task.findOneAndUpdate({ taskId }, body, {
+	const updatedTask = await Task.findByIdAndUpdate(taskId, body, {
 		new: true,
 		runValidators: true
 	});
