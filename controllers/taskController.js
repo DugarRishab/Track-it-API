@@ -62,7 +62,7 @@ exports.createTask = catchAsync(async (req, res, next) => {
 	}
 	
 
-	const task = await Task.create({
+	let task = await Task.create({
 		title: req.body.title,
 		assignedTo,
 		assignedBy: `${assignedBy.id}`,
@@ -80,6 +80,10 @@ exports.createTask = catchAsync(async (req, res, next) => {
 		subTasks: req.body.subTasks,
 		// images: uploadRes ? [uploadRes?.url] : null
 	});
+
+	task = await task.populate({
+		path: 'assignedBy assignedTo team project',
+	}).execPopulate();
 
 	res.status(200).json({
 		message: 'success',
